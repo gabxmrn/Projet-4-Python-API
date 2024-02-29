@@ -1,0 +1,80 @@
+import dill
+import base64
+import requests
+import pandas as pd
+import datetime as dt
+
+"""
+The following script shows an example on how to send a custom trading analytics function to our API.
+After running the app on your local host, post your request to the '/submit' endpoint with the following requirements:
+
+    - Make sure to serialize your function then convert it into a base64 string using the func2b64 helper function defined below.
+    - Gather the function arguments (other than the gathered market DataFrame) inside a dict while making sure the key names 
+      stay the same as the args.
+    - Store the market data loader options inside a dict with keys 'tickers', 'ohlcv', 'freq', 'start_date', 'end_date'.
+      Dates should be passed as timestamps to avoid any conversion error.
+    - Once done aggregate your objects into a single params dict by associating keys 'func', 'kwargs' and 'options' to
+      the base64 function, its keyword arguments and the data loading tool parameters respectively. If your custom function
+      has no arguments other than the gathered market DataFrame you should either post an empty dict as 'kwargs' or not post 
+      anything associated to the key.
+
+The results will be returned by the API as a json file with key "output". in case of an error being caught, its description
+will be returned with key "error".
+"""
+
+def func2b64(func: callable) -> str:
+    """ Serializes a python function into a base 64 string. """
+    # Serializing the original function into bytes
+    fbyt = dill.dumps(func)
+    # Returning the base 64 string version of the function
+    return base64.b64encode(fbyt).decode('utf-8')
+
+# Importing the custom analysis function
+from examples import bollinger_bands
+
+if __name__ == '__main__':
+    
+    # Initializing the data loading tool's parameters
+    tickers = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'] # List of tickers to retreive (with USDT as quote asset)
+    ohlcv = ['Low', 'High', 'Close'] # Collecting Low, High and Closing prices for each ticker
+    freq = '1d' # Daily price interval
+    end_date = dt.datetime.today() # Setting the last data point as today
+    start_date = end_date - dt.timedelta(days=365) # Starting the analysis a year prior
+
+    # Gathering the market data loader parameters inside a dict
+    options = {
+        'tickers': tickers,
+        'ohlcv': ohlcv, 
+        'freq': freq,
+        'start_date': int(start_date.timestamp()),
+        'end_date': int(end_date.timestamp()) # Make sure to convert starting and ending dates to timestamps
+    }
+
+    # Dictionary storing the custom function's keyword arguments
+    kwargs = {
+        'tickers': tickers,
+        'n': 20, # 20 day window for bollinger band's moving average
+        'm': 2 # Make sure that the keys are labeled the same as in the function's definition
+    }
+
+    # Converting the function into bytes then into a base64 string to ensure its json compatibility
+    fb64 = func2b64(bollinger_bands)
+
+    # Aggregating all needed elements inside the params dict
+    params = {
+        'func': fb64, # Function as base 64 string 
+        'kwargs': kwargs, # Function's keyword arguments
+        'options': options # Data loader options
+    }
+
+    url = 'http://127.0.0.1:5000/submit' # API's url
+    response = requests.post(url, json=params) # Posting the request
+    details = response.json() # Results are stored inside a json file with the 'output' key
+
+    if not 'error' in details:
+        # If no error occured we print the function's results
+        results = pd.DataFrame.from_dict(details['output'], orient='columns') # Turning back results into a DataFrame
+        print(results)
+    else:
+        # Else we print the error details
+        print(details)
