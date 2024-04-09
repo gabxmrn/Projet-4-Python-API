@@ -1,8 +1,0 @@
-Nous avons pour objectif de développer une interface permettant :
-1/ Inputs
-  - Une interface globale qui permet de sélectionner le projet voulu (1, 2 ou 3) ;
-  - Pour chaque projet, une interface pour entrer les inputs / sélectionner quoi faire ;
-  - Vérification des données : bon format, exceptions.
-2/ Outputs
-  - Pour chaque API, présentation des outputs (graphiques, tableaux, valeurs, etc.) ;
-  - Les outputs seront testés avec des fonctions Mock.
