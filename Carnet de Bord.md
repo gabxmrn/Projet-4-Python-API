@@ -12,13 +12,13 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 - API Global - Gabrielle : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
 - API 1 :
   - Inputs - Wilhem
-  - Outpus -
+  - Outputs -
 - API 2 :
   - Inputs - Gabrielle
-  - Outpus -
+  - Outputs -
 - API 3 :
   - Inputs -
-  - Outpus -
+  - Outputs -
 
 ## Spécification du projet au 31 décembre 2023
 
