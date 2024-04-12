@@ -15,11 +15,7 @@ class API_1_ContentGenerator:
         title = HTMLToolBox.generate_title(project_name)
         project_subtitle = "ceci est un sous titre"
         sub_title = HTMLToolBox.generate_subtitle(project_subtitle)
-        return title + sub_title
-
-    def generate_dropdown_menu(options):
-        dropdown_html = "<select>"
-        for option in options:
-            dropdown_html += f"<option value='{option}'>{option}</option>"
-        dropdown_html += "</select>"
-        return dropdown_html
+        options_test = ["bjr","bsr"]
+        dropdown_html = "<label for='tickers' style='font-family: Helvetica, sans-serif;'>Choix de tickers :</label>"
+        dropdown_html += HTMLToolBox.generate_dropdown_menu(options_test)
+        return title + sub_title + dropdown_html
