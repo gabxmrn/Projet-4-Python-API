@@ -20,6 +20,12 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
   - Inputs -
   - Outputs -
 
+## Feuille de route 
+
+### Wilhem (12/04/2024)
+- Création d'un 1 fichier .py par API + une Toolbox
+- A la sélection de l'API qu'on souhaite lancer, une page html s'ouvre et il faut maitenant les remplir.
+
 ## Spécification du projet au 31 décembre 2023
 
 ### <u>Gabrielle</u>
