@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+from API_1 import API1
 
 
 class Application(tk.Tk):
@@ -21,8 +23,13 @@ class Application(tk.Tk):
         """
         super().__init__()
         self.title("Sélection du projet")
-        self.geometry("650x150")
+        #self.geometry("650x150")
+        self.configure(bg="#f0f0f0")
         
+        style = ttk.Style(self)
+        style.configure("TButton", font=("Helvetica", 12), padding=10)  # Style des boutons
+        style.configure("TLabel", font=("Helvetica", 12))  # Style des labels
+
         self.create_widgets()
 
 
@@ -37,30 +44,42 @@ class Application(tk.Tk):
             None
         """
         grand_font = ("Helvetica", 12)
+        bouton_couleur = "#4CAF50"
 
-        self.bouton_projet1 = tk.Button(self, 
+        self.bouton_projet1 = ttk.Button(self, 
                                         text="Projet 1 : API pour Backtesting de Stratégies de Trading Algorithmique", 
                                         command=self.choisir_projet_1,
-                                        font=grand_font)
+                                        style="TButton",
+                                        cursor="hand2")
         self.bouton_projet1.pack(pady=5)
 
-        self.bouton_projet2 = tk.Button(self, 
+        self.bouton_projet2 = ttk.Button(self, 
                                         text="Projet 2 : Création d’Analytics de Trading Personnalisés via API", 
                                         command=self.choisir_projet_2,
-                                        font=grand_font)
+                                        style="TButton",
+                                        cursor="hand2")
         self.bouton_projet2.pack(pady=5)
 
-        self.bouton_projet3 = tk.Button(self, 
+        self.bouton_projet3 = ttk.Button(self, 
                                         text="Projet 3 : API d’Uniformisation pour Échanges de Cryptomonnaies", 
                                         command=self.choisir_projet_3,
-                                        font=grand_font)
+                                        style="TButton",
+                                        cursor="hand2")
         self.bouton_projet3.pack(pady=5)
+
+        max_button_width = max(self.bouton_projet1.winfo_reqwidth(),
+                               self.bouton_projet2.winfo_reqwidth(),
+                               self.bouton_projet3.winfo_reqwidth())
+        
+        max_button_height = self.bouton_projet1.winfo_reqheight() + self.bouton_projet2.winfo_reqheight() + self.bouton_projet3.winfo_reqheight()
+                                
+        self.geometry(f"{max_button_width + 40}x{max_button_height + 40}")
 
 
     def choisir_projet_1(self):
-        # Appeler la méthode spécifique pour le Projet 1
-        # TO DO
-        pass
+        # Instanciation
+        app = API1()
+        app.mainloop()
 
 
     def choisir_projet_2(self):
