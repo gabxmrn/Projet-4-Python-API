@@ -1,73 +1,25 @@
-import tkinter as tk
+from flask import Flask
+from toolbox import HTMLToolBox
 
-class API1(tk.Tk):
-    """
-    Classe qui créée l'interface utilisateur principal et permet de sélectionner l'API du projet à lancer.
+def construction_API1():
+    API1 = API_1_ContentGenerator()
+    return API1.generate_page()
 
-    Attributes:
-        None
-    """
+class API_1_ContentGenerator: 
+
     def __init__(self):
-        """
-        Initialise la fenêtre de sélection de projet.
-
-        Args:
-            self: Instance de la classe Application.
-
-        Returns:
-            None
-        """
         super().__init__()
-        self.title("API pour Backtesting de Stratégies de Trading Algorithmique")
-        self.geometry("650x150")
-        
-        self.create_widgets()
 
-    
-    def create_widgets(self):
-        """
-        Crée les boutons pour chaque projet et les ajoute à la fenêtre.
+    def generate_page(self):
+        project_name = 'API pour Backtesting de Stratégies de Trading Algorithmique'
+        title = HTMLToolBox.generate_title(project_name)
+        project_subtitle = "ceci est un sous titre"
+        sub_title = HTMLToolBox.generate_subtitle(project_subtitle)
+        return title + sub_title
 
-        Args:
-            self: Instance de la classe Application.
-
-        Returns:
-            None
-        """
-        grand_font = ("Helvetica", 12)
-
-        '''
-        self.bouton_projet1 = tk.Button(self, 
-                                        text="API pour Backtesting de Stratégies de Trading Algorithmique", 
-                                        font=grand_font)
-        self.bouton_projet1.pack(pady=5)
-        '''
-        self.text_projet1 = tk.Label(self, 
-                                   text="coucou", 
-                                   font=grand_font)
-        
-        self.text_projet1.pack(pady=5)
-
-
-"""
-       Modèle de requête suivi par l'utilisateur :
-
-       - func_strat : La fonction de trading en str renvoyant un poids pour chaque actif à chaque date.
-       - requirements : Liste des imports nécessaires.
-       - tickers : Liste des tickers considérés.
-       - dates_calibration : Dates pour calibrer la fonction de stratégie.
-       - dates_test : Dates sur lesquelles on teste la stratégie de trading.
-       - interval : Fréquence des observations considérées.
-       - amount : Montant initial du portefeuille.
-       - rqt_name : Nom de la requête pour identification.
-
-    
-    func_strat: str
-    requirements: list[str]
-    tickers: list[str]
-    dates_calibration: list[str]
-    interval: str
-    amount: str
-    rqt_name: str
-    # repeat_frequency: str
-    """
+    def generate_dropdown_menu(options):
+        dropdown_html = "<select>"
+        for option in options:
+            dropdown_html += f"<option value='{option}'>{option}</option>"
+        dropdown_html += "</select>"
+        return dropdown_html

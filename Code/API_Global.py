@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
-from API_1 import API1
+import threading
+import webbrowser
+from flask import Flask, jsonify
+import API_1
+import API_2
+import API_3
 
 
 class Application(tk.Tk):
@@ -23,7 +28,6 @@ class Application(tk.Tk):
         """
         super().__init__()
         self.title("Sélection du projet")
-        #self.geometry("650x150")
         self.configure(bg="#f0f0f0")
         
         style = ttk.Style(self)
@@ -43,26 +47,23 @@ class Application(tk.Tk):
         Returns:
             None
         """
-        grand_font = ("Helvetica", 12)
-        bouton_couleur = "#4CAF50"
-
         self.bouton_projet1 = ttk.Button(self, 
                                         text="Projet 1 : API pour Backtesting de Stratégies de Trading Algorithmique", 
-                                        command=self.choisir_projet_1,
+                                        command=self.lancer_projet_1,
                                         style="TButton",
                                         cursor="hand2")
         self.bouton_projet1.pack(pady=5)
 
         self.bouton_projet2 = ttk.Button(self, 
                                         text="Projet 2 : Création d’Analytics de Trading Personnalisés via API", 
-                                        command=self.choisir_projet_2,
+                                        command=self.lancer_projet_2,
                                         style="TButton",
                                         cursor="hand2")
         self.bouton_projet2.pack(pady=5)
 
         self.bouton_projet3 = ttk.Button(self, 
                                         text="Projet 3 : API d’Uniformisation pour Échanges de Cryptomonnaies", 
-                                        command=self.choisir_projet_3,
+                                        command=self.lancer_projet_3,
                                         style="TButton",
                                         cursor="hand2")
         self.bouton_projet3.pack(pady=5)
@@ -76,19 +77,33 @@ class Application(tk.Tk):
         self.geometry(f"{max_button_width + 40}x{max_button_height + 40}")
 
 
-    def choisir_projet_1(self):
-        # Instanciation
-        app = API1()
-        app.mainloop()
+    def lancer_projet_1(self):
+        project = 1
+        self.destroy()
+        self.start_flask_server(5000, project)
 
-
-    def choisir_projet_2(self):
-        # Appeler la méthode spécifique pour le Projet 2
-        # TO DO
+    def lancer_projet_2(self):
+        project = 2
+        self.destroy()
+        self.start_flask_server(5001, project)
         pass
 
-
-    def choisir_projet_3(self):
-        # Appeler la méthode spécifique pour le Projet 3
-        # TO DO
+    def lancer_projet_3(self):
+        project = 3
+        self.destroy()
+        self.start_flask_server(5002, project)
         pass
+    
+    def start_flask_server(self, port, project_nb):
+        app = Flask(__name__)
+        @app.route('/', methods=['GET'])
+        def index():
+            if project_nb == 1:
+                return API_1.construction_API1()
+            elif project_nb == 2:
+                return API_2.construction_API2()
+            elif project_nb == 3:
+                return API_3.construction_API3()
+
+        threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
+        webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
