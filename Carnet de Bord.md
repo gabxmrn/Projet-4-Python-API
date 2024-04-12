@@ -11,7 +11,7 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 - Récupération des spécifications des 3 projets au 31 décembre - Gabrielle
 - API Global - Gabrielle : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
 - API 1 :
-  - Inputs -
+  - Inputs - Wilhem
   - Outpus -
 - API 2 :
   - Inputs - Gabrielle
