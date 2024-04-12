@@ -1,26 +1,29 @@
 # Python API : Projet numéros 4 - Interface utilisateur pour l'intégration des projets API
 
-## Membre du Groupe
+## Membres du Groupe
+
 Karen Arban, Joudy Benkaddour, Sara Chidawi, Wilhem Frölicher, Gabrielle Morin & Clara Noche.
 
-## Répartition du travail :
+## Répartition du travail
 
 Etant donné que nous devons réaliser une interface utilisateur pour trois projets API avec, pour chacun d'entre eux, une interface gérant les inputs et une les outputs. Nous nous sommes répartis par binômes sur les API, avec une personne s'occupant des inputs et l'autre des outputs.
 
+- Récupération des spécifications des 3 projets au 31 décembre - Gabrielle
 - API Global - Gabrielle : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
 - API 1 :
-  - Inputs :
-  - Outpus :
+  - Inputs -
+  - Outpus -
 - API 2 :
-  - Inputs :
-  - Outpus :
+  - Inputs - Gabrielle
+  - Outpus -
 - API 3 :
-  - Inputs :
-  - Outpus :
+  - Inputs -
+  - Outpus -
 
-## Spécification du projet au 31 décembre 2023 :
+## Spécification du projet au 31 décembre 2023
 
-### <u>Gabrielle :</u>
+### <u>Gabrielle</u>
+
 Nous avons pour objectif de développer une interface permettant :
 
 1/ Inputs
@@ -32,7 +35,8 @@ Nous avons pour objectif de développer une interface permettant :
   - Pour chaque API, présentation des outputs (graphiques, tableaux, valeurs, etc.) ;
   - Les outputs seront testés avec des fonctions Mock.
 
-### <u>Joudy :</u>
+### <u>Joudy</u>
+
 Notre projet consiste en la création d'une interface utilisateur qui a pour objectif d'intégrer et de centraliser les fonctionnalités de trois projets distincts développés par d'autres groupes. Notre défi principal réside dans la gestion des API fournies par ces groupes, ainsi que dans leur implémentation au sein d'une API globale. Cette dernière devra être conçue de manière à interagir harmonieusement avec les trois API individuelles à travers une interface unique. De plus, il sera essentiel de mettre en place un système efficace pour la présentation et le stockage des résultats obtenus. Nous devons être capable de réunir ces différents éléments en un ensemble cohérent et fonctionnel.
 La complexité de notre tâche dépendra des projets élaborés par les autres équipes. Nous devrons faire preuve d'adaptabilité, notamment en étant capables d'accepter et de traiter une large variété de formats d'entrée, afin de pouvoir interagir efficacement avec les API des autres groupes. 
 Pour développer notre interface utilisateur en Python, nous avons choisi d'utiliser la librairie Tkinter pour sa simplicité d'utilisation, qui se présente comme un choix idéal compte tenu de notre expérience limitée en matière de création d'interfaces utilisateurs en Python. 
