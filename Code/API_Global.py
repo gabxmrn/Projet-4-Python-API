@@ -78,25 +78,36 @@ class Application(tk.Tk):
 
 
     def lancer_projet_1(self):
+        """ Démarre le projet 1 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 1
         self.destroy()
         self.start_flask_server(5000, project)
 
     def lancer_projet_2(self):
+        """ Démarre le projet 2 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 2
         self.destroy()
         self.start_flask_server(5001, project)
         pass
 
     def lancer_projet_3(self):
+        """ Démarre le projet 3 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 3
         self.destroy()
         self.start_flask_server(5002, project)
         pass
     
     def start_flask_server(self, port, project_nb):
+        """ 
+         Démarre un serveur Flask sur le port spécifié et ouvre un navigateur web pour accéder à l'API du projet.
+
+        Args:
+            port (int): Le port sur lequel démarrer le serveur Flask.
+            project_nb (int): Le numéro du projet à lancer.
+        """
         app = Flask(__name__)
         @app.route('/', methods=['GET'])
+        
         def index():
             if project_nb == 1:
                 return API_1.construction_API1()

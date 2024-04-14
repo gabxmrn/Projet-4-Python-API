@@ -9,7 +9,7 @@ Karen Arban, Joudy Benkaddour, Sara Chidawi, Wilhem Frölicher, Gabrielle Morin 
 Etant donné que nous devons réaliser une interface utilisateur pour trois projets API avec, pour chacun d'entre eux, une interface gérant les inputs et une les outputs. Nous nous sommes répartis par binômes sur les API, avec une personne s'occupant des inputs et l'autre des outputs.
 
 - Récupération des spécifications des 3 projets au 31 décembre - Gabrielle
-- API Global - Gabrielle : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
+- API Global - Gabrielle & Wilhem : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
 - API 1 :
   - Inputs - Wilhem
   - Outputs -
@@ -20,32 +20,35 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
   - Inputs -
   - Outputs -
 
-## Feuille de route 
+## Feuille de route
 
 ### Wilhem (12/04/2024)
-- Création d'un 1 fichier .py par API + une Toolbox
-- A la sélection de l'API qu'on souhaite lancer, une page html s'ouvre et il faut maitenant les remplir.
+
+- Création d'un 1 fichier .py par API + une Toolbox pour le template HTML ;
+- Quand on sélectionne un API dans la boîte Tkniter, une page html s'ouvre et il faut maitenant les remplir.
 
 ## Spécification du projet au 31 décembre 2023
 
-### <u>Gabrielle</u>
+### Gabrielle - Récapitulatif global
 
 Nous avons pour objectif de développer une interface permettant :
 
 1/ Inputs
-  - Une interface globale qui permet de sélectionner le projet voulu (1, 2 ou 3) ;
-  - Pour chaque projet, une interface pour entrer les inputs / sélectionner quoi faire ;
-  - Vérification des données : bon format, exceptions.
+
+- Une interface globale qui permet de sélectionner le projet voulu (1, 2 ou 3) ;
+- Pour chaque projet, une interface pour entrer les inputs / sélectionner quoi faire ;
+- Vérification des données : bon format, exceptions.
 
 2/ Outputs
-  - Pour chaque API, présentation des outputs (graphiques, tableaux, valeurs, etc.) ;
-  - Les outputs seront testés avec des fonctions Mock.
 
-### <u>Joudy</u>
+- Pour chaque API, présentation des outputs (graphiques, tableaux, valeurs, etc.) ;
+- Les outputs seront testés avec des fonctions Mock.
+
+### Joudy - Premiers tests
 
 Notre projet consiste en la création d'une interface utilisateur qui a pour objectif d'intégrer et de centraliser les fonctionnalités de trois projets distincts développés par d'autres groupes. Notre défi principal réside dans la gestion des API fournies par ces groupes, ainsi que dans leur implémentation au sein d'une API globale. Cette dernière devra être conçue de manière à interagir harmonieusement avec les trois API individuelles à travers une interface unique. De plus, il sera essentiel de mettre en place un système efficace pour la présentation et le stockage des résultats obtenus. Nous devons être capable de réunir ces différents éléments en un ensemble cohérent et fonctionnel.
-La complexité de notre tâche dépendra des projets élaborés par les autres équipes. Nous devrons faire preuve d'adaptabilité, notamment en étant capables d'accepter et de traiter une large variété de formats d'entrée, afin de pouvoir interagir efficacement avec les API des autres groupes. 
-Pour développer notre interface utilisateur en Python, nous avons choisi d'utiliser la librairie Tkinter pour sa simplicité d'utilisation, qui se présente comme un choix idéal compte tenu de notre expérience limitée en matière de création d'interfaces utilisateurs en Python. 
+La complexité de notre tâche dépendra des projets élaborés par les autres équipes. Nous devrons faire preuve d'adaptabilité, notamment en étant capables d'accepter et de traiter une large variété de formats d'entrée, afin de pouvoir interagir efficacement avec les API des autres groupes.
+Pour développer notre interface utilisateur en Python, nous avons choisi d'utiliser la librairie Tkinter pour sa simplicité d'utilisation, qui se présente comme un choix idéal compte tenu de notre expérience limitée en matière de création d'interfaces utilisateurs en Python.
 Nous avons opté pour la librairie Tkinter après avoir effectué plusieurs tests exploratoires pour évaluer ses capacités. Ces expérimentations nous ont permis de découvrir diverses fonctionnalités, telles que l'ajout d'onglets et la possibilité d'intégrer des graphiques. Un exemple concret de notre utilisation de Tkinter a été un petit projet test. Dans ce dernier, nous avons développé un code permettant d'interagir avec l'API CoinGecko pour récupérer des données de prix, calculer des rendements, et offrir à l'utilisateur la possibilité de définir les pondérations d'un portefeuille composé de BNB, BTC et ETH, ainsi que de choisir les dates de début et de fin. Cette application a servi à réceptionner les données de CoinGecko, fournissant ainsi un exemple simple mais efficace pour comprendre le fonctionnement de Tkinter. L'expérience a démontré que nous pouvons afficher des graphiques. Nous avons également envisagé de structurer notre interface en séparant chaque projet dans un onglet distinct, ce qui devrait contribuer à une organisation claire et une navigation intuitive pour l'utilisateur.
 L'objectif est de fournir une expérience utilisateur intuitive et agréable, avec des options flexibles pour afficher les résultats. Selon les préférences et les besoins de l'utilisateur, nous pourrions opter pour des fenêtres pop-up ou intégrer les résultats directement dans l'interface principale.
 Pour faciliter la saisie des données, notre interface inclura divers éléments interactifs tels que des boutons et des champs de saisie. Il est essentiel de prêter une attention particulière à la gestion des entrées utilisateur. Nous devrons effectuer de nombreux tests pour garantir que notre interface gère correctement une gamme étendue de données d'entrée, y compris les cas de saisies incorrectes ou inattendues.
