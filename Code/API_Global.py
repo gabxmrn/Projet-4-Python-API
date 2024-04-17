@@ -3,9 +3,9 @@ from tkinter import ttk
 import threading
 import webbrowser
 from flask import Flask, request, jsonify
-import API_1
-import API_2
-import API_3
+import API_1.Page_HTML1 as Page_HTML1
+import API_2.Page_HTML2 as Page_HTML2
+import API_3.Page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -110,15 +110,16 @@ class Application(tk.Tk):
         
         def index():
             if project_nb == 1:
-                return API_1.construction_API1()
+                return Page_HTML1.construction_API1()
             elif project_nb == 2:
-                return API_2.construction_API2()
+                return Page_HTML2.construction_API2()
             elif project_nb == 3:
-                return API_3.construction_API3()
+                return Page_HTML3.construction_API3()
 
         threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
+        # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
         def run_code_api2():
             if request.method == 'POST':
