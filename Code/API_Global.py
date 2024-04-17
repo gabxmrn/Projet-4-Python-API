@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import webbrowser
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 import API_1
 import API_2
 import API_3
@@ -118,3 +118,19 @@ class Application(tk.Tk):
 
         threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
+
+        @app.route('/run_code_api2', methods=['POST'])
+        def run_code_api2():
+            if request.method == 'POST':
+                data = request.get_json()
+                # Affichage dans la console
+                print (data)
+
+                start_date = data.get('startDate')
+                end_date = data.get('endDate')
+                frequency = data.get('freq')
+                
+                # Affichage sur la page HTML
+                return jsonify({"start_date": start_date})
+
+            return jsonify({"error": "Method not allowed"}), 405

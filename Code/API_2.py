@@ -35,32 +35,44 @@ class API_2_ContentGenerator:
 
         # Type de données à récupérer
         data_type = ["Open","High", "Low", "Close", "Volume"]
-        dropdown_data_type = "<label for='type' style='font-family: Helvetica, sans-serif; display: block;'>Type de données à récupérer : </label>"
+        dropdown_data_type = "<label for='type' style='font-family: Helvetica, sans-serif; font-weight: bold; display: block;'>Type de données à récupérer : </label>"
         dropdown_data_type += HTMLToolBox.generate_dropdown_menu(data_type, True)
 
         # Boite de saisie des dates
-        date1_input_box = HTMLToolBox.generate_date_input_box("Date de début :")
-        date2_input_box = HTMLToolBox.generate_date_input_box("Date de fin :")
+        date1_input_box = HTMLToolBox.generate_date_input_box("startDate", "Date de début :")
+        date2_input_box = HTMLToolBox.generate_date_input_box("endDate", "Date de fin :")
 
         # Fréquence
-        freq_input_box = HTMLToolBox.generate_str_input_box("Fréquence entre les points de données :")
+        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1m, 1h, 1d, ...) :")
 
         # Bouton pour lancer le code
-        button_code = "<button onclick='Test()' style='padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;'>Importer les données</button>"
-        
+        button_code = """
+        <div style="display: flex; justify-content: center;">
+            <button id="BtnAPI2" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px;">Importation des paramètres :</button>
+        </div>
+        <div id="result"></div>
+        """
+
         script = """
         <script>
-            function Test() {
-                fetch('/execute-python-code')
-                .then(response => response.text())
-                .then(data => alert(data))
-                .catch(error => console.error('Une erreur s\'est produite :', error));
-            }
+            document.getElementById("BtnAPI2").addEventListener("click", function() {
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
+                var freq = document.getElementById("freq").value;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/run_code_api2", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        document.getElementById("result").innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send(JSON.stringify({startDate: startDate, endDate: endDate, freq: freq}));
+            });
         </script>
         """
+        
 
         return title + description + parameter_title + dropdown_data_type + date1_input_box + date2_input_box + freq_input_box + line_break + button_code + script
     
-
-def Test():
-    return "ok"

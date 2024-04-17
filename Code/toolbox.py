@@ -34,15 +34,16 @@ class HTMLToolBox:
         
         return dropdown_html
     
-    def generate_date_input_box(title):
+    @staticmethod
+    def generate_date_input_box(id, title):
         input_box_style = "padding: 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; font-family: Helvetica, sans-serif; margin-bottom: 10px;"
         title_style = "font-family: Helvetica, sans-serif; text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px;"
-        date_input = f"<div><p style='{title_style}'>{title}</p><input type='date' style='{input_box_style}' name='{title}'></div>"
+        date_input = f"<div><p style='{title_style}'>{title}</p><input type='date' id='{id}' style='{input_box_style}' name='{title}'></div>"
         return date_input
     
-    def generate_str_input_box(title):
+    def generate_str_input_box(id, title):
         input_box_style = "padding: 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; font-family: Helvetica, sans-serif; margin-bottom: 10px;"
         title_style = "font-family: Helvetica, sans-serif; text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px;"
-        str_input_box = f"<div><p style='{title_style}'>{title}</p><input type='text' style='{input_box_style}' name='{title}'></div>"
+        str_input_box = f"<div><p style='{title_style}'>{title}</p><input type='text' id='{id}' style='{input_box_style}' name='{title}'></div>"
         return str_input_box
 
