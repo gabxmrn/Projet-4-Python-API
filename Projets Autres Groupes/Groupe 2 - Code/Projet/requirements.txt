@@ -1,0 +1,8 @@
+aiohttp==3.8.6
+dill==0.3.7
+Flask==3.0.3
+Flask_SocketIO==5.3.6
+flask_swagger_ui==4.11.1
+pandas==2.2.2
+python-socketio==5.11.2
+Requests==2.31.0

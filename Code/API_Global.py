@@ -5,26 +5,18 @@ import webbrowser
 from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
 import API_2.Page_HTML2 as Page_HTML2
+from API_2.Inputs_API2 import Inputs_API2
 import API_3.Page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
     """
     Classe qui créée l'interface utilisateur principal et permet de sélectionner l'API du projet à lancer.
-
-    Attributes:
-        None
     """
 
     def __init__(self):
         """
         Initialise la fenêtre de sélection de projet.
-
-        Args:
-            self: Instance de la classe Application.
-
-        Returns:
-            None
         """
         super().__init__()
         self.title("Sélection du projet")
@@ -43,9 +35,6 @@ class Application(tk.Tk):
 
         Args:
             self: Instance de la classe Application.
-
-        Returns:
-            None
         """
         self.bouton_projet1 = ttk.Button(self, 
                                         text="Projet 1 : API pour Backtesting de Stratégies de Trading Algorithmique", 
@@ -75,7 +64,6 @@ class Application(tk.Tk):
         max_button_height = self.bouton_projet1.winfo_reqheight() + self.bouton_projet2.winfo_reqheight() + self.bouton_projet3.winfo_reqheight()
                                 
         self.geometry(f"{max_button_width + 40}x{max_button_height + 40}")
-
 
     def lancer_projet_1(self):
         """ Démarre le projet 1 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
@@ -119,19 +107,20 @@ class Application(tk.Tk):
         threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
+        # ! Code exécuté par le bouton de l'API 1
+
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
         def run_code_api2():
             if request.method == 'POST':
+                # Récupération des données
                 data = request.get_json()
-                # Affichage dans la console
-                print (data)
 
-                start_date = data.get('startDate')
-                end_date = data.get('endDate')
-                frequency = data.get('freq')
-                
-                # Affichage sur la page HTML
-                return jsonify({"start_date": start_date})
+                # Traitement des données
+                input_params_api2 = Inputs_API2(data)
+                if input_params_api2.verif_params():
+                    return "Importation des données réussies."
 
             return jsonify({"error": "Method not allowed"}), 405
+        
+        # ! Code exécuté par le bouton de l'API 3

@@ -83,7 +83,7 @@ class MarketDataLoader:
         self.start_date = start_date
         self.end_date = end_date
         # Dictionary of compatible ohlcv endpoints and their associated json index
-        self._cross_ref = {
+        self.__cross_ref = {
             'Time': 0, # Candlestick opening timestamp
             'Open': 1,
             'High': 2,
@@ -93,13 +93,13 @@ class MarketDataLoader:
         }
         # Checking for the validity of user inputed endpoints
         for endpoint in self.ohlcv:
-            if not endpoint in self._cross_ref:
+            if not endpoint in self.__cross_ref:
                 # Raise OhlcvError in case of incorrect endpoint
                 raise OhlcvError(f'{endpoint} incorrect for ohlcv endpoint, '\
                                  'value should either be "Open", "High", "Low", '\
                                     '"Close" or "Volume".')
             
-    async def _fetch_candlesticks(self, session: aiohttp.ClientSession, ticker: str) -> pd.DataFrame:
+    async def __fetch_candlesticks(self, session: aiohttp.ClientSession, ticker: str) -> pd.DataFrame:
         """
         Fetches ohlcv candlestick data for a univariate ticker between specified dates.
 
@@ -126,11 +126,11 @@ class MarketDataLoader:
             details = await response.json() # Awaiting for results as json
             try:
                 time = [
-                    dt.datetime.fromtimestamp(ts[self._cross_ref['Time']] / 1_000)
+                    dt.datetime.fromtimestamp(ts[self.__cross_ref['Time']] / 1_000)
                     for ts in details # Collecting candlesticks opening timestamps and converting them to datetime format 
                 ]
                 values = {
-                    f'{ticker}-{key}': [data[self._cross_ref[key]] for data in details]
+                    f'{ticker}-{key}': [data[self.__cross_ref[key]] for data in details]
                     for key in self.ohlcv # Collecting ohlcv data inside a dictionary with ticker-ohlcv as key 
                 }
                 # Returning collected results as a DataFrame with opening times as index
@@ -140,7 +140,7 @@ class MarketDataLoader:
                 raise TickerError('Error encountered when retreiving data for '\
                                   f'ticker: {ticker}')
             
-    async def _gather_candlesticks(self) -> pd.DataFrame:
+    async def __gather_candlesticks(self) -> pd.DataFrame:
         """
         Gathers ohlcv candlestick data for all specified tickers using async API calls. 
 
@@ -151,7 +151,7 @@ class MarketDataLoader:
         """
         async with aiohttp.ClientSession() as session:
             tasks = [
-                self._fetch_candlesticks(session, ticker) 
+                self.__fetch_candlesticks(session, ticker) 
                 for ticker in self.tickers # Creating separate tasks for single tickers
                 ]
             results = await asyncio.gather(*tasks) # Awating for all results to be returned
@@ -168,7 +168,7 @@ class MarketDataLoader:
              DataFrame of gathered ohlcv data including a `"Time"` column containing candlesticks opening times
              with the other columns being named following the ticker-ohlcv format e.g. `"SOLUSDT-Close"`, `"XRPUSDT-High"`, ... 
         """
-        return asyncio.run(self._gather_candlesticks())
+        return asyncio.run(self.__gather_candlesticks())
    
 if __name__ == '__main__':
     pass

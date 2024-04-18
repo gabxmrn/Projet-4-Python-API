@@ -1,0 +1,519 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Trading Analytics API",
+        "description": "The Trading Analytics API provides a wide range of Technical Analysis Indicators applied to Crypto-Assets Markets. It also allows users to submit and apply their own custom Python 3 Analytics Functions to historical and real-time data. For more informations on our POST method, please check our client.py and README.md files.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:5000/api/v1"
+        }
+    ],
+    "tags": [
+        {
+            "name": "ta",
+            "description": "Everything about Crypto-Assets Technical Analysis Indicators"
+        }
+    ],
+    "paths": {
+        "/ta/sma": {
+            "get": {
+                "tags": ["ta"],
+                "summary": "Simple Moving Average",
+                "description": "Computes the Simple Moving Average for a set of Crypto-Assets Ticker-OHLCV pairs",
+                "parameters": [
+                    {
+                        "name": "tickers",
+                        "in": "query",
+                        "description": "comma-separated list of usdt quoted crypto-assets tickers listed on binance e.g. 'BTCUSDT', 'ETHUSDT', 'SOLUSDT'...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ohlcv",
+                        "in": "query",
+                        "description": "comma-separated list of ohlcv endpoints e.g. 'Open', 'High', 'Low', 'Close' and 'Volume'",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "starting date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "ending date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "freq",
+                        "in": "query",
+                        "description": "data frequency interval between two gathered points",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "1d",
+                            "enum": ["1d", "1h", "1m"]
+                        }
+                    },
+                    {
+                        "name": "n",
+                        "in": "query",
+                        "description": "rolling window length",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "output": [
+                                            {
+                                                "BTCUSDT-Close-Sma": 29782.003999999997,
+                                                "BTCUSDT-Open-Sma": 29815.704999999998,
+                                                "ETHUSDT-Close-Sma": 1890.9219999999998,
+                                                "ETHUSDT-Open-Sma": 1890.8404999999998,
+                                                "Time": "Tue, 01 Aug 2023 02:00:00 GMT"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ta/ema": {
+            "get": {
+                "tags": ["ta"],
+                "summary": "Exponential Moving Average",
+                "description": "Computes the Exponential Moving Average for a set of Crypto-Assets Ticker-OHLCV pairs",
+                "parameters": [
+                    {
+                        "name": "tickers",
+                        "in": "query",
+                        "description": "comma-separated list of usdt quoted crypto-assets tickers listed on binance e.g. 'BTCUSDT', 'ETHUSDT', 'SOLUSDT'...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ohlcv",
+                        "in": "query",
+                        "description": "comma-separated list of ohlcv endpoints e.g. 'Open', 'High', 'Low', 'Close' and 'Volume'",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "starting date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "ending date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "freq",
+                        "in": "query",
+                        "description": "data frequency interval between two gathered points",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "1d",
+                            "enum": ["1d", "1h", "1m"]
+                        }
+                    },
+                    {
+                        "name": "n",
+                        "in": "query",
+                        "description": "rolling window length",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "output": [
+                                            {
+                                                "BTCUSDT-Close-Ema": 29625.38708748526,
+                                                "BTCUSDT-Open-Ema": 29621.521809366397,
+                                                "ETHUSDT-Close-Ema": 1876.8160484273403,
+                                                "ETHUSDT-Open-Ema": 1877.4334223556523,
+                                                "Time": "Tue, 01 Aug 2023 02:00:00 GMT"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ta/macd": {
+            "get": {
+                "tags": ["ta"],
+                "summary": "Moving Average Convergence Divergence",
+                "description": "Computes the Moving Average Convergence Divergence for a set of Crypto-Assets Tickers",
+                "parameters": [
+                    {
+                        "name": "tickers",
+                        "in": "query",
+                        "description": "comma-separated list of usdt quoted crypto-assets tickers listed on binance e.g. 'BTCUSDT', 'ETHUSDT', 'SOLUSDT'...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "starting date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "ending date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "freq",
+                        "in": "query",
+                        "description": "data frequency interval between two gathered points",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "1d",
+                            "enum": ["1d", "1h", "1m"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "output": [
+                                            {
+                                                "BTCUSDT-Macd": -118.52226945939765,
+                                                "BTCUSDT-Signal": -51.84674837197345,
+                                                "ETHUSDT-Macd": -4.466853514785498,
+                                                "ETHUSDT-Signal": -1.0438124102365605,
+                                                "Time": "Tue, 01 Aug 2023 02:00:00 GMT"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ta/rsi": {
+            "get": {
+                "tags": ["ta"],
+                "summary": "Relative Strenght Index",
+                "description": "Computes the Relative Strenght Index for a set of Crypto-Assets Tickers",
+                "parameters": [
+                    {
+                        "name": "tickers",
+                        "in": "query",
+                        "description": "comma-separated list of usdt quoted crypto-assets tickers listed on binance e.g. 'BTCUSDT', 'ETHUSDT', 'SOLUSDT'...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "starting date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "ending date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "freq",
+                        "in": "query",
+                        "description": "data frequency interval between two gathered points",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "1d",
+                            "enum": ["1d", "1h", "1m"]
+                        }
+                    },
+                    {
+                        "name": "n",
+                        "in": "query",
+                        "description": "rolling window length",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "output": [
+                                            {
+                                                "BTCUSDT-Rsi": 43.59818472287392,
+                                                "ETHUSDT-Rsi": 50.19126886606543,
+                                                "Time": "Tue, 01 Aug 2023 02:00:00 GMT"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ta/bbands": {
+            "get": {
+                "tags": ["ta"],
+                "summary": "Bollinger Bands",
+                "description": "Computes the Bollinger Bands for a set of Crypto-Assets Tickers",
+                "parameters": [
+                    {
+                        "name": "tickers",
+                        "in": "query",
+                        "description": "comma-separated list of usdt quoted crypto-assets tickers listed on binance e.g. 'BTCUSDT', 'ETHUSDT', 'SOLUSDT'...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "starting date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "ending date with DD-MM-YYYY format",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "freq",
+                        "in": "query",
+                        "description": "data frequency interval between two gathered points",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "1d",
+                            "enum": ["1d", "1h", "1m"]
+                        }
+                    },
+                    {
+                        "name": "n",
+                        "in": "query",
+                        "description": "rolling window length",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "m",
+                        "in": "query",
+                        "description": "number of standard deviations used to compute upper and lower bands",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "output": [
+                                            {
+                                                "BTCUSDT-Lb": 28727.289801112845,
+                                                "BTCUSDT-Ma": 29784.871999999996,
+                                                "BTCUSDT-Ub": 30842.454198887146,
+                                                "ETHUSDT-Lb": 1826.3834760900345,
+                                                "ETHUSDT-Ma": 1890.4959999999999,
+                                                "ETHUSDT-Ub": 1954.6085239099652,
+                                                "Time": "Tue, 01 Aug 2023 02:00:00 GMT"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

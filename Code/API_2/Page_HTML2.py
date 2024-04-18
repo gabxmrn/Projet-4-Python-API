@@ -1,18 +1,36 @@
-from flask import Flask, render_template
-from toolbox import HTMLToolBox
+from Toolboxs.html_toolbox import HTMLToolBox
 
 
-def construction_API2():
+def construction_API2() -> str:
+    """
+    Fonction qui génère le contenu de la page API2.
+
+    Returns:
+        str: Le contenu HTML de la page API2.
+    """
     API2 = API_2_ContentGenerator()
     return API2.generate_page()
 
 
 class API_2_ContentGenerator: 
+    """
+    Classe pour générer le contenu de la page API2.
+    """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        Initialise une nouvelle instance de la classe API_2_ContentGenerator.
+        """
         super().__init__()
     
-    def generate_page(self):
+    def generate_page(self) -> str:
+        """
+        Génère le contenu HTML de la page API2.
+
+        Returns:
+            str: Le contenu HTML de la page API2.
+        """
+
         # Saut de ligne
         line_break = HTMLToolBox.generate_line_break()
 
@@ -25,25 +43,28 @@ class API_2_ContentGenerator:
                             Cet API fournit une large gamme d'indicateurs d'analyse technique appliqués aux marchés de crypto-actifs.
                             Les utilisateurs peuvent également soumettre et appliquer leurs propres fonctions d'analyse Python3 personalisées aux données historiques et à celles en temps réel. """
         description = HTMLToolBox.generate_paragraph(project_description)
+
+        # Sélection de la fonction
+        function_title = HTMLToolBox.generate_input_selection("Sélection de la fonction à utiliser :")
+        fnc = HTMLToolBox.generate_str_input_box("fnc","")
     
         # Sélection des paramètres de marché
-        parameter_selection = "Sélection des paramètres de marché :"
-        parameter_title = HTMLToolBox.generate_input_selection(parameter_selection)
+        parameter_title = HTMLToolBox.generate_input_selection("Sélection des paramètres de marché :")
 
         # Liste des tickers de crypto-actifs (USDT quote-asset)
-        # !!!! TO DO !!!!
+        ticker_input_box = HTMLToolBox.generate_tick_input_box("tickers","Ticker des crypto-actifs (USDT quote-asset) :")
 
         # Type de données à récupérer
         data_type = ["Open","High", "Low", "Close", "Volume"]
         dropdown_data_type = "<label for='type' style='font-family: Helvetica, sans-serif; font-weight: bold; display: block;'>Type de données à récupérer : </label>"
-        dropdown_data_type += HTMLToolBox.generate_dropdown_menu(data_type, True)
+        dropdown_data_type += HTMLToolBox.generate_dropdown_menu("datatype", data_type, True)
 
         # Boite de saisie des dates
         date1_input_box = HTMLToolBox.generate_date_input_box("startDate", "Date de début :")
         date2_input_box = HTMLToolBox.generate_date_input_box("endDate", "Date de fin :")
 
         # Fréquence
-        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1m, 1h, 1d, ...) :")
+        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m or 1y) :")
 
         # Bouton pour lancer le code
         button_code = """
@@ -52,13 +73,17 @@ class API_2_ContentGenerator:
         </div>
         <div id="result"></div>
         """
-
+        
+        # Récupération des données entrées par l'utilisateur
         script = """
         <script>
             document.getElementById("BtnAPI2").addEventListener("click", function() {
                 var startDate = document.getElementById("startDate").value;
                 var endDate = document.getElementById("endDate").value;
                 var freq = document.getElementById("freq").value;
+                var dataType = Array.from(document.getElementById("datatype").selectedOptions).map(option => option.value);
+                var tick = document.getElementById("tickers").value;
+                var fnc = document.getElementById("fnc").value;
 
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/run_code_api2", true);
@@ -68,11 +93,15 @@ class API_2_ContentGenerator:
                         document.getElementById("result").innerHTML = xhr.responseText;
                     }
                 };
-                xhr.send(JSON.stringify({startDate: startDate, endDate: endDate, freq: freq}));
+                xhr.send(JSON.stringify({startDate: startDate, endDate: endDate, dataType:dataType, freq: freq, tickers:tick}));
             });
         </script>
         """
         
-
-        return title + description + parameter_title + dropdown_data_type + date1_input_box + date2_input_box + freq_input_box + line_break + button_code + script
+        # Génération de la page HTML
+        return title + description + \
+            function_title + fnc + parameter_title + \
+            ticker_input_box + dropdown_data_type + \
+            date1_input_box + date2_input_box + freq_input_box + \
+            line_break + button_code + script + line_break + line_break
     
