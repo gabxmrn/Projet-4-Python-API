@@ -22,16 +22,20 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 
 ## Feuille de route
 
-### Gabrielle (18/04/2023 - point sur la dernière semaine)
+### Gabrielle (19/04/2023 - point sur la dernière semaine)
 
 - Fin de la création de la page HTML pour que l'utilisateur puisse rentrer les inputs de l'API 2 ;
   - Espace pour entrer les tickers, le type de données à récupérer (liste à choix mutlitple), les dates, une fréquence ;
   - Pour les tickers, utilisation de JavaScript pour que le bouton d'espace devienne un / (permet plus tard de séparer la chaîne de caractères créée).
 - Création d'un bouton qui permet d'exécuter un code Python depuis la page HTML ;
 - Récupération des données entrées par l'utilisateur par une requête JSON, envoit vers la classe qui traite l'API 2 ;
-- Contrôle des paramètres entrés par l'utilisateur et renvoie d'un message d'erreur dans le terminal en cas d'erreur;
-- Docstrings pour les classes HTMLToolBox et API_2_ContentGenerator;
-- FIn du codage de la classe HTMLToolBox en ajoutant les fonctions nécessaires pour la génération de la page HTML (ajout au code de base de Wilhem).
+- Contrôle des paramètres entrés par l'utilisateur et renvoie d'un message d'erreur dans le terminal en cas d'erreur ;
+- Si les paramètres séléctionnés sont corrects, alors on les met en forme pour lancer les fonctions (mock) de l'API ;
+- Une fois le code exécuté, message sur la page HTML ;
+- Docstrings pour les classes Inputs_API2 HTMLToolBox et API_2_ContentGenerator ;
+- Fin du codage de la classe HTMLToolBox en ajoutant les fonctions nécessaires pour la génération de la page HTML (ajout au code de base de Wilhem) ;
+- Création d'un README et début de rédaction ;
+- Nombreux tests du code pour vérifier qu'il soit robuste et fonctionne correctement.
 
 ### Wilhem (12/04/2024)
 

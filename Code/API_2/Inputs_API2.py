@@ -1,17 +1,30 @@
-import re
+import re, os
+import importlib.util
+import datetime as dt
 
-# TODO: Mise en forme des paramètres appropriée (cf git de Lucas) => conversion dates surtout
-# TODO: Affichage des exceptions sur la page HTML plutôt que dans la console ? voir si c'est possible
-# TODO: Contrôle de la fonction entrée (faire une classe mock avec des petites fonctions à utiliser)
 
 class Inputs_API2:
+    """Classe pour gérer les paramètres entrants de l'API."""
 
     def __init__(self, requete: dict) -> None:
+        """Initialise un objet Inputs_API2 avec les résultats d'une requête."""
         self.__data = requete
 
     def verif_params(self) -> bool:
+        """Vérifie que les paramètres entrés par l'utilisateur (contenus dans la requête) sont correctes.
 
-        # TODO: Contrôle - Fonction
+        Raises:
+            ValueError: Si un des paramètres est invalide.
+        Returns:
+            bool: True si les paramètres sont valides, sinon False.
+        """
+
+        # Contrôle - Fonction
+        if 'fnc' in self.__data and self.__data['fnc']:
+            chemin_complet = os.path.join(os.path.dirname(__file__), 'functions' + '.py')
+            if not self.__fonction_existe(self.__data['fnc'], 'functions', chemin_complet):
+                print(self.__fonction_existe(self.__data['fnc'], 'functions'))
+                raise ValueError("Erreur : la fonction que vous voulez utiliser n'existe pas.")
 
         # Contrôle - Tickers
         if 'dataType' in self.__data and self.__data['dataType']:
@@ -44,5 +57,78 @@ class Inputs_API2:
 
         return True
     
-    def traitement_params(self):
-        pass
+    def traitement_params(self) -> dict:
+        """Traite les paramètres de la requête pour les formater et exécute la fonction sélectionnée.
+
+        Returns:
+            dict: Options formatées pour l'importation de données.
+        """
+        
+        # Formating des paramètres
+
+        ## Tickers
+        liste_tick = []
+        tickers = self.__data['tickers'].rstrip('/')
+        tickers = self.__data['tickers'].split('/')
+        for ticker in tickers:
+            liste_tick.append(ticker)
+
+        ## Types de données
+        type_ok = ""
+        for t in self.__data['dataType']:
+            type_ok += t[0].lower()
+
+        # Sélection des options
+        options = {
+            'function': self.__data['fnc'],
+            'tickers': liste_tick,
+            'ohlcv': type_ok,
+            'freq': self.__data['freq'],
+            'start_date': int(dt.datetime.strptime(self.__data['startDate'], "%Y-%m-%d").timestamp()),
+            'end_date' : int(dt.datetime.strptime(self.__data['endDate'], "%Y-%m-%d").timestamp())
+        }
+
+        # Exécution de la fonction sélectionnée
+        chemin_complet = os.path.join(os.path.dirname(__file__), 'functions' + '.py')
+        self.__fonction_execution(self.__data['fnc'], 'functions', chemin_complet, options)
+
+        return options
+
+    def __fonction_existe(self, nom_fnc: str, nom_fichier: str, chemin_complet: str) -> bool:
+        """Vérifie si la fonction spécifiée existe dans le fichier.
+
+        Args:
+            nom_fnc (str): Nom de la fonction à vérifier.
+            nom_fichier (str): Nom du fichier contenant les fonctions.
+            chemin_complet (str): Chemin complet du fichier.
+
+        Returns:
+            bool: True si la fonction existe, sinon False.
+        """
+        try:
+            spec = importlib.util.spec_from_file_location(nom_fichier, chemin_complet)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            return hasattr(module, nom_fnc) and callable(getattr(module, nom_fnc))
+        except (ImportError, ModuleNotFoundError, AttributeError):
+            return False
+
+    def __fonction_execution(self, nom_fnc: str, nom_fichier: str, chemin_complet: str, opt: dict) -> None:
+        """Exécute la fonction spécifiée avec les options données.
+
+        Args:
+            nom_fnc (str): Nom de la fonction à exécuter.
+            nom_fichier (str): Nom du fichier contenant les fonctions.
+            chemin_complet (str): Chemin complet du fichier.
+            opt (dict): Options à passer à la fonction.
+        """
+        try:
+            spec = importlib.util.spec_from_file_location(nom_fichier, chemin_complet)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+
+            # Exécution de la fonction
+            getattr(module, nom_fnc)(opt)
+        
+        except FileNotFoundError:
+            print("Fichier contenant la fonction introuvable.")

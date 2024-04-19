@@ -46,6 +46,7 @@ class API_2_ContentGenerator:
 
         # Sélection de la fonction
         function_title = HTMLToolBox.generate_input_selection("Sélection de la fonction à utiliser :")
+        remarque = HTMLToolBox.generate_paragraph("Pour tester le code, veuillez entrer : fnc1, fnc2 ou fnc3.")
         fnc = HTMLToolBox.generate_str_input_box("fnc","")
     
         # Sélection des paramètres de marché
@@ -64,7 +65,7 @@ class API_2_ContentGenerator:
         date2_input_box = HTMLToolBox.generate_date_input_box("endDate", "Date de fin :")
 
         # Fréquence
-        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m or 1y) :")
+        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m ou 1y) :")
 
         # Bouton pour lancer le code
         button_code = """
@@ -93,14 +94,14 @@ class API_2_ContentGenerator:
                         document.getElementById("result").innerHTML = xhr.responseText;
                     }
                 };
-                xhr.send(JSON.stringify({startDate: startDate, endDate: endDate, dataType:dataType, freq: freq, tickers:tick}));
+                xhr.send(JSON.stringify({fnc:fnc, startDate: startDate, endDate: endDate, dataType:dataType, freq: freq, tickers:tick}));
             });
         </script>
         """
         
         # Génération de la page HTML
         return title + description + \
-            function_title + fnc + parameter_title + \
+            function_title + remarque + fnc + parameter_title + \
             ticker_input_box + dropdown_data_type + \
             date1_input_box + date2_input_box + freq_input_box + \
             line_break + button_code + script + line_break + line_break

@@ -3,10 +3,10 @@ from tkinter import ttk
 import threading
 import webbrowser
 from flask import Flask, request, jsonify
-import API_1.Page_HTML1 as Page_HTML1
-import API_2.Page_HTML2 as Page_HTML2
-from API_2.Inputs_API2 import Inputs_API2
-import API_3.Page_HTML3 as Page_HTML3
+import API_1.page_HTML1 as Page_HTML1
+import API_2.page_HTML2 as Page_HTML2
+from API_2.inputs_API2 import Inputs_API2
+import API_3.page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -107,7 +107,7 @@ class Application(tk.Tk):
         threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
-        # ! Code exécuté par le bouton de l'API 1
+        # TODO: Code exécuté par le bouton de l'API 1
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -115,12 +115,24 @@ class Application(tk.Tk):
             if request.method == 'POST':
                 # Récupération des données
                 data = request.get_json()
+                print(data)
 
                 # Traitement des données
-                input_params_api2 = Inputs_API2(data)
-                if input_params_api2.verif_params():
-                    return "Importation des données réussies."
+                input_api2 = Inputs_API2(data)
+                if input_api2.verif_params():
+                    opt = input_api2.traitement_params()
+
+                    # Output paramètres dans la page HTML
+                    html_content = f"<p>Importation et traitement des données réussis.</p>"
+                    html_content += "<p>Paramètres sélectionnés :</p>"
+                    html_content += "<ul>"
+                    for key, value in opt.items():
+                        html_content += f"<li>{key}: {value}</li>"
+                    html_content += "</ul>"
+                    html_content += "<p>La fonction a été exécutée.</p>"
+
+                    return html_content
 
             return jsonify({"error": "Method not allowed"}), 405
         
-        # ! Code exécuté par le bouton de l'API 3
+        # TODO: Code exécuté par le bouton de l'API 3
