@@ -3,10 +3,10 @@ from tkinter import ttk
 import threading
 import webbrowser
 from flask import Flask, request, jsonify
-import API_1.page_HTML1 as Page_HTML1
-import API_2.page_HTML2 as Page_HTML2
-from API_2.inputs_API2 import Inputs_API2
-import API_3.page_HTML3 as Page_HTML3
+import API_1.Page_HTML1 as Page_HTML1
+import API_2.Page_HTML2 as Page_HTML2
+from API_2.Inputs_API2 import Inputs_API2
+import API_3.Page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):

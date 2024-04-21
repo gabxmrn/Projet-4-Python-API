@@ -96,6 +96,7 @@ class HTMLToolBox:
         
         return dropdown_html
     
+    
     @staticmethod
     def generate_date_input_box(id: str, title: str):
         """
