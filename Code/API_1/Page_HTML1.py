@@ -39,7 +39,10 @@ class API_1_ContentGenerator:
         """
         description = HTMLToolBox.generate_paragraph(project_description)
         
-        # Sélection de la fonction de tradong
+        # Nom de la requête
+        rqt_input_box = HTMLToolBox.generate_str_input_box("rqt","Nom de votre requête pour l'identification :")
+
+        # Sélection de la fonction de trading
         function_title = HTMLToolBox.generate_input_selection("Sélection de la fonction de trading à utiliser (renvoie les poids) :")
         remarque = HTMLToolBox.generate_paragraph("Pour tester le code, veuillez entrer : fnc1, fnc2 ou fnc3.")
         fnc = HTMLToolBox.generate_str_input_box("fnc","")
@@ -74,7 +77,7 @@ class API_1_ContentGenerator:
         # Récupération des données entrées par l'utilisateur
         script = """
         <script>
-            document.getElementById("BtnAPI2").addEventListener("click", function() {
+            document.getElementById("BtnAPI1").addEventListener("click", function() {
                 var startDateCal = document.getElementById("startDateCal").value;
                 var endDateCal = document.getElementById("endDateCal").value;
                 var startDateTest = document.getElementById("startDateTest").value;
@@ -82,6 +85,7 @@ class API_1_ContentGenerator:
                 var freq = document.getElementById("freq").value;
                 var dataTicker = Array.from(document.getElementById("dataticker").selectedOptions).map(option => option.value);
                 var amt = document.getElementById("amt").value;
+                var rqt = document.getElementById("rqt").value;
                 var fnc = document.getElementById("fnc").value;
 
                 var xhr = new XMLHttpRequest();
@@ -97,20 +101,6 @@ class API_1_ContentGenerator:
         </script>
         """
 
-        return line_break + title + description + function_title + remarque + fnc + dropdown_data_type + \
+        return line_break + title + description + rqt_input_box + function_title + remarque + fnc + dropdown_data_type + \
             date1_input_box_cal + date2_input_box_cal + date1_input_box_test + date2_input_box_test + \
             freq_input_box + amt_input_box + button_code + script
-    
-
-    """
-       Modèle de requête suivi par l'utilisateur :
-
-       - requirements : Liste des imports nécessaires.
-       - tickers : Liste des tickers considérés.
-       - dates_calibration : Dates pour calibrer la fonction de stratégie.
-       - dates_test : Dates sur lesquelles on teste la stratégie de trading.
-       - interval : Fréquence des observations considérées.
-       - amount : Montant initial du portefeuille.
-       - rqt_name : Nom de la requête pour identification.
-
-       """
