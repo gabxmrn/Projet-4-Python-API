@@ -12,40 +12,46 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 - API Global - Gabrielle & Wilhem : permet à l'utilisateur de sélectionner le projet auquel il veut avoir accès.
 - API 1 :
   - Inputs - Wilhem
-  - Outputs -
+  - Outputs - Clara
 - API 2 :
   - Inputs - Gabrielle
-  - Outputs -
+  - Outputs - Joudy
 - API 3 :
   - Inputs - Karen
   - Outputs - Sara
 
 ## Feuille de route
 
-### Gabrielle (19/04/2023 - point sur la dernière semaine)
+### Gabrielle
 
-- Fin de la création de la page HTML pour que l'utilisateur puisse rentrer les inputs de l'API 2 ;
-  - Espace pour entrer les tickers, le type de données à récupérer (liste à choix mutlitple), les dates, une fréquence ;
-  - Pour les tickers, utilisation de JavaScript pour que le bouton d'espace devienne un / (permet plus tard de séparer la chaîne de caractères créée).
-- Création d'un bouton qui permet d'exécuter un code Python depuis la page HTML ;
-- Récupération des données entrées par l'utilisateur par une requête JSON, envoit vers la classe qui traite l'API 2 ;
-- Contrôle des paramètres entrés par l'utilisateur et renvoie d'un message d'erreur dans le terminal en cas d'erreur ;
-- Si les paramètres séléctionnés sont corrects, alors on les met en forme pour lancer les fonctions (mock) de l'API ;
-- Une fois le code exécuté, message sur la page HTML ;
-- Docstrings pour les classes Inputs_API2 HTMLToolBox et API_2_ContentGenerator ;
-- Fin du codage de la classe HTMLToolBox en ajoutant les fonctions nécessaires pour la génération de la page HTML (ajout au code de base de Wilhem) ;
-- Création d'un README et début de rédaction ;
-- Nombreux tests du code pour vérifier qu'il soit robuste et fonctionne correctement.
+- 22/04/2024
+  - Corrections sur le carnet de bord ;
+  - Ajout d'un message pour indiquer que l'utilisateur doit se rendre dans le terminal en cas d'erreur pour les pages HTML des API 1 et 2 ;
+  - Ajout des fonctions flask à exécuter après avoir cliqué sur les boutons des pages HTML des API 1 & 3.
+- 19/04/2024 - point sur la dernière semaine
+  - Fin de la création de la page HTML pour que l'utilisateur puisse rentrer les inputs de l'API 2 ;
+    - Espace pour entrer les tickers, le type de données à récupérer (liste à choix mutlitple), les dates, une fréquence ;
+    - Pour les tickers, utilisation de JavaScript pour que le bouton d'espace devienne un / (permet plus tard de séparer la chaîne de caractères créée).
+  - Création d'un bouton qui permet d'exécuter un code Python depuis la page HTML ;
+  - Récupération des données entrées par l'utilisateur par une requête JSON, envoit vers la classe qui traite l'API 2 ;
+  - Contrôle des paramètres entrés par l'utilisateur et renvoie d'un message d'erreur dans le terminal en cas d'erreur ;
+  - Si les paramètres séléctionnés sont corrects, alors on les met en forme pour lancer les fonctions (mock) de l'API ;
+  - Une fois le code exécuté, message sur la page HTML ;
+  - Docstrings pour les classes Inputs_API2 HTMLToolBox et API_2_ContentGenerator ;
+  - Fin du codage de la classe HTMLToolBox en ajoutant les fonctions nécessaires pour la génération de la page HTML (ajout au code de base de Wilhem) ;
+  - Création d'un README et début de rédaction ;
+  - Nombreux tests du code pour vérifier qu'il soit robuste et fonctionne correctement.
 
 ### Wilhem (12/04/2024)
+
 - Semaine du 12/04/2024 ;
   - Décision d'utilisation de FlashAPI en plus de boite de dialogue Tkniter créée par Gabrielle ;
   - Création d'un 1 fichier .py par API + une Toolbox pour le template HTML ;
   - Création pour les 3 API de la feuille HTML d'inputs avec a minima le titre pour que tout le monde ait la même structure de code ;
   - Uniformisation des process pour les 3 API ;
-- Semaine du 19/04/2024 ; 
+- Semaine du 19/04/2024 ;
   - Sur le schéma de ce qui a été fait pour l'API 2 par Gabrielle, création des différentes entrées sur la page HTML pour les inputs ;
-  - Tests sur l'API 1 pour s'assurer que les différents controles sont effectivement bons ; 
+  - Tests sur l'API 1 pour s'assurer que les différents controles sont effectivement bons ;
   - Reprise en accord avec Gabrielle d'une partie des codes (pour le bouton et les controles) ;
 
 ## Spécification du projet au 31 décembre 2023

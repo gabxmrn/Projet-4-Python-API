@@ -67,6 +67,10 @@ class API_2_ContentGenerator:
         # Fréquence
         freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m ou 1y) :")
 
+        #  Message à l'utilisateur
+        msg = HTMLToolBox.generate_paragraph("Le bouton ci-dessous exécute le code. Si jamais vous n'avez pas rentré les paramètres appropriés, un message d'erreur s'affichera dans la console." +
+                                             "De la même manière, si rien ne s'affiche sur la page HTML, veuillez regarder dans la console.")
+
         # Bouton pour lancer le code
         button_code = """
         <div style="display: flex; justify-content: center;">
@@ -103,6 +107,6 @@ class API_2_ContentGenerator:
         return title + description + \
             function_title + remarque + fnc + parameter_title + \
             ticker_input_box + dropdown_data_type + \
-            date1_input_box + date2_input_box + freq_input_box + \
+            date1_input_box + date2_input_box + freq_input_box + msg + \
             line_break + button_code + script + line_break + line_break
     

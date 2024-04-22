@@ -4,9 +4,9 @@ import threading
 import webbrowser
 from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
-import API_2.Page_HTML2 as Page_HTML2
-from API_2.Inputs_API2 import Inputs_API2
-import API_3.Page_HTML3 as Page_HTML3
+import API_2.page_HTML2 as Page_HTML2
+from API_2.inputs_API2 import Inputs_API2
+import API_3.page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -108,6 +108,14 @@ class Application(tk.Tk):
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
         # TODO: Code exécuté par le bouton de l'API 1
+        @app.route('/run_code_api1', methods=['POST'])
+        def run_code_api1():
+            if request.method == 'POST':
+                # Récupération des données
+                data = request.get_json()
+                print(data)
+
+            return jsonify({"error": "Method not allowed"}), 405
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -115,7 +123,6 @@ class Application(tk.Tk):
             if request.method == 'POST':
                 # Récupération des données
                 data = request.get_json()
-                print(data)
 
                 # Traitement des données
                 input_api2 = Inputs_API2(data)
@@ -136,3 +143,11 @@ class Application(tk.Tk):
             return jsonify({"error": "Method not allowed"}), 405
         
         # TODO: Code exécuté par le bouton de l'API 3
+        @app.route('/run_code_api3', methods=['POST'])
+        def run_code_api3():
+            if request.method == 'POST':
+                # Récupération des données
+                data = request.get_json()
+                print(data)
+
+            return jsonify({"error": "Method not allowed"}), 405

@@ -65,6 +65,10 @@ class API_1_ContentGenerator:
         
         # Montant initial
         amt_input_box = HTMLToolBox.generate_str_input_box("amt","Montant initial du portefeuille :")
+        
+        #  Message à l'utilisateur
+        msg = HTMLToolBox.generate_paragraph("Le bouton ci-dessous exécute le code. Si jamais vous n'avez pas rentré les paramètres appropriés, un message d'erreur s'affichera dans la console." +
+                                             "De la même manière, si rien ne s'affiche sur la page HTML, veuillez regarder dans la console.")
     
         # Bouton pour lancer le code
         button_code = """
@@ -89,7 +93,7 @@ class API_1_ContentGenerator:
                 var fnc = document.getElementById("fnc").value;
 
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/run_code_api2", true);
+                xhr.open("POST", "/run_code_api1", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function () {
                     if (xhr.status === 200) {
@@ -103,4 +107,4 @@ class API_1_ContentGenerator:
 
         return line_break + title + description + rqt_input_box + function_title + remarque + fnc + dropdown_data_type + \
             date1_input_box_cal + date2_input_box_cal + date1_input_box_test + date2_input_box_test + \
-            freq_input_box + amt_input_box + button_code + script
+            freq_input_box + amt_input_box + msg + button_code + script
