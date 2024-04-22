@@ -38,9 +38,15 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 - Nombreux tests du code pour vérifier qu'il soit robuste et fonctionne correctement.
 
 ### Wilhem (12/04/2024)
-
-- Création d'un 1 fichier .py par API + une Toolbox pour le template HTML ;
-- Quand on sélectionne un API dans la boîte Tkniter, une page html s'ouvre et il faut maitenant les remplir.
+- Semaine du 12/04/2024 ;
+  - Décision d'utilisation de FlashAPI en plus de boite de dialogue Tkniter créée par Gabrielle ;
+  - Création d'un 1 fichier .py par API + une Toolbox pour le template HTML ;
+  - Création pour les 3 API de la feuille HTML d'inputs avec a minima le titre pour que tout le monde ait la même structure de code ;
+  - Uniformisation des process pour les 3 API ;
+- Semaine du 19/04/2024 ; 
+  - Sur le schéma de ce qui a été fait pour l'API 2 par Gabrielle, création des différentes entrées sur la page HTML pour les inputs ;
+  - Tests sur l'API 1 pour s'assurer que les différents controles sont effectivement bons ; 
+  - Reprise en accord avec Gabrielle d'une partie des codes (pour le bouton et les controles) ;
 
 ## Spécification du projet au 31 décembre 2023
 
