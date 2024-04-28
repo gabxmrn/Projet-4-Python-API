@@ -67,11 +67,13 @@ class Application(tk.Tk):
                                 
         self.geometry(f"{max_button_width + 40}x{max_button_height + 40}")
 
+
     def lancer_projet_1(self):
         """ Démarre le projet 1 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 1
         self.destroy()
         self.start_flask_server(5000, project)
+
 
     def lancer_projet_2(self):
         """ Démarre le projet 2 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
@@ -80,13 +82,15 @@ class Application(tk.Tk):
         self.start_flask_server(5027, project)
         pass
 
+
     def lancer_projet_3(self):
         """ Démarre le projet 3 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 3
         self.destroy()
         self.start_flask_server(5002, project)
         pass
-    
+
+
     def start_flask_server(self, port, project_nb):
         """ 
          Démarre un serveur Flask sur le port spécifié et ouvre un navigateur web pour accéder à l'API du projet.
@@ -110,6 +114,9 @@ class Application(tk.Tk):
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
         # TODO: Code exécuté par le bouton de l'API 1
+        @app.route('/run_code_api1', methods=['POST'])
+        def run_code_api1():
+            pass
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -138,3 +145,6 @@ class Application(tk.Tk):
             return jsonify({"error": "Method not allowed"}), 405
                
         # TODO: Code exécuté par le bouton de l'API 3
+        @app.route('/run_code_api3', methods=['POST'])
+        def run_code_api3():
+            pass

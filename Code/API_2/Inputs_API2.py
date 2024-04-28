@@ -6,9 +6,11 @@ import datetime as dt
 class Inputs_API2:
     """Classe pour gérer les paramètres entrants de l'API."""
 
+
     def __init__(self, requete: dict) -> None:
         """Initialise un objet Inputs_API2 avec les résultats d'une requête."""
         self.__data = requete
+
 
     def verif_params(self) -> bool:
         """Vérifie que les paramètres entrés par l'utilisateur (contenus dans la requête) sont correctes.
@@ -18,6 +20,14 @@ class Inputs_API2:
         Returns:
             bool: True si les paramètres sont valides, sinon False.
         """
+
+        # Contrôle - Fonction
+        if 'fnc' in self.__data and self.__data['fnc']:
+            if self.__data['fnc'] not in ['SMA', 'EMA', 'MACD', 'RSI', 'BBANDS']:
+                chemin_complet = os.path.join(os.path.dirname(__file__), 'functions' + '.py')
+                if not self.__fonction_existe(self.__data['fnc'], 'functions', chemin_complet):
+                    print(self.__fonction_existe(self.__data['fnc'], 'functions'))
+                    raise ValueError("Erreur : la fonction que vous voulez utiliser n'existe pas.")
 
         # Contrôle - Tickers
         if 'tickers' in self.__data and self.__data['tickers']:
@@ -37,10 +47,6 @@ class Inputs_API2:
         # Contrôle - paramètres de la partie utilisant les données en temps réel
         if self.__data['hist_rt'] == 'rt':
             
-            # Contrôle - indicateur à calculer
-            if 'fnc' not in self.__data or self.__data['fnc'] is None:
-                raise ValueError("Erreur : Veuillez sélectionner un indicateur à calculer.")
-
             # Contrôle - période de calcul
             if 'n' not in self.__data or self.__data['n'] is None:
                 raise ValueError("Erreur : Veuillez entrer la durée de période de calcul.")
@@ -62,16 +68,9 @@ class Inputs_API2:
             if self.__data['endDate'] < self.__data['startDate']:
                 raise ValueError("Erreur : la début de fin doit être après la date de début.")
             
-            # Contrôle - Fonction
-            if 'fnc' in self.__data and self.__data['fnc']:
-                if self.__data['fnc'] not in ['SMA', 'EMA', 'MACD', 'RSI', 'BBANDS']:
-                    chemin_complet = os.path.join(os.path.dirname(__file__), 'functions' + '.py')
-                    if not self.__fonction_existe(self.__data['fnc'], 'functions', chemin_complet):
-                        print(self.__fonction_existe(self.__data['fnc'], 'functions'))
-                        raise ValueError("Erreur : la fonction que vous voulez utiliser n'existe pas.")
-
         return True
     
+
     def traitement_params(self) -> dict:
         """Traite les paramètres de la requête pour les formater et exécute la fonction sélectionnée.
 
@@ -135,6 +134,7 @@ class Inputs_API2:
 
         return opts
 
+
     def __fonction_existe(self, nom_fnc: str, nom_fichier: str, chemin_complet: str) -> bool:
         """Vérifie si la fonction spécifiée existe dans le fichier.
 
@@ -153,6 +153,7 @@ class Inputs_API2:
             return hasattr(module, nom_fnc) and callable(getattr(module, nom_fnc))
         except (ImportError, ModuleNotFoundError, AttributeError):
             return False
+
 
     def __fonction_execution(self, nom_fnc: str, nom_fichier: str, chemin_complet: str, opt: dict) -> None:
         """Exécute la fonction spécifiée avec les options données.

@@ -18,11 +18,13 @@ class API_2_ContentGenerator:
     Classe pour générer le contenu de la page API2.
     """
 
+
     def __init__(self) -> None:
         """
         Initialise une nouvelle instance de la classe API_2_ContentGenerator.
         """
         super().__init__()
+
 
     def generate_page(self) -> str:
         """
@@ -53,6 +55,7 @@ class API_2_ContentGenerator:
             websocket_section + lb + lb + \
             indicators_section + lb + lb
 
+
     def generate_websocket_section(self) -> str:
         """
         Génère le contenu HTML de la première section de la page API2.
@@ -81,7 +84,7 @@ class API_2_ContentGenerator:
         period_input_box = HTMLToolBox.generate_str_input_box("period", "Durée de la période de calcul :")
 
         # Indicateur à sélectionner
-        indicators = ["SMA","EMA", "MACD", "RSI", "BBands"]
+        indicators = ["SMA","EMA", "MACD", "RSI", "BBANDS"]
         dropdown_indicators = "<label for='type' style='font-family: Helvetica, sans-serif; font-weight: bold; display: block;'>Indicateur à calculer : </label>"
         dropdown_indicators += HTMLToolBox.generate_dropdown_menu("indic", indicators, False)
 
@@ -121,6 +124,7 @@ class API_2_ContentGenerator:
             ticker_input_box + description2 + \
             freq_input_box + period_input_box + dropdown_indicators + \
             button_code + script
+
 
     def generate_indicators_section(self) -> str:
         """
