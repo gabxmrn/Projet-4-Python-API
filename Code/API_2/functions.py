@@ -1,31 +1,28 @@
 # Fichier "Mock" qui permet de test le code de l'API2
+import requests
 
 
-def fnc1(data: dict) -> None:
+def test(data: dict) -> None:
     """
-    Simulation d'une fonction.
+    Simulation d'une fonction personnalisée.
     
     Parameters:
         data (dict): dictionnaire contenant les données.
     """
-    print("Exécution de la fonction 1.")
+    print("Exécution de la fonction personnalisée.")
 
 
-def fnc2(data: dict) -> None:
-    """
-    Simulation d'une fonction.
-    
-    Parameters:
-        data (dict): dictionnaire contenant les données.
-    """
-    print("Exécution de la fonction 2.")
+def SMA_API(data: dict) -> None:
+    pass
 
+def EMA_API(data: dict) -> None:
+    pass
 
-def fnc3(data: dict) -> None:
-    """
-    Simulation d'une fonction.
-    
-    Parameters:
-        data (dict): dictionnaire contenant les données.
-    """
-    print("Exécution de la fonction 3.")
+def MACD_API(data: dict) -> None:
+    pass
+
+def RSI_API(data: dict) -> None:
+    pass
+
+def BBANDS_API(data: dict) -> None:
+    pass
