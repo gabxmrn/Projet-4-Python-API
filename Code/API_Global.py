@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
 import API_2.Page_HTML2 as Page_HTML2
 from API_2.Inputs_API2 import Inputs_API2
-import API_3.Page_HTML3 as Page_HTML3
+import API_3.page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -124,7 +124,7 @@ class Application(tk.Tk):
                 if input_api2.verif_params():
                     opt = input_api2.traitement_params()
 
-                    # Output paramètres dans la page HTML
+                    # ! Output paramètres dans la page HTML => pb: s'affiche tjrs derrière le 1er bouton
                     html_content = f"<p>Importation et traitement des données réussis.</p>"
                     html_content += "<p>Paramètres sélectionnés :</p>"
                     html_content += "<ul>"
@@ -136,21 +136,5 @@ class Application(tk.Tk):
                     return html_content
 
             return jsonify({"error": "Method not allowed"}), 405
-
-        @app.route('/trigger_rsi', methods=['POST'])
-        def trigger_rsi():
-            data = request.json
-            print(data)
-            try:
-                response = requests.get("http://127.0.0.1:5000/api/v1/ta/rsi", params=data)
-                if response.status_code == 200:
-                    return jsonify(response.json()), 200
-                else:
-                    return jsonify({'error': response.text}), response.status_code
-            except Exception as e:
-                return jsonify({'error': str(e)}), 500
-
-        #if __name__ == "__main__":
-        #    app.run(debug=True)
-        
+               
         # TODO: Code exécuté par le bouton de l'API 3
