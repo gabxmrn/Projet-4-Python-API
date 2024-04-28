@@ -1,4 +1,3 @@
-import sys
 from Toolboxs.html_toolbox import HTMLToolBox
 
 

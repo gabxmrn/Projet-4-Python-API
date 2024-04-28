@@ -24,6 +24,13 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 
 ### Gabrielle
 
+- 28/04/2024
+  - Merge de la branche de Joudy (manuellement) ;
+  - Inputs de l'API 2 : ajout de la partie sur les données historiques et nettoyage de la partie sur les Websockets (réorganisation, simplification) ;
+  - Simulation de fonctions de résultats pour les indicateurs de l'API 2 ;
+  - Représentation graphique des résultats de l'API2 ;
+  - Dernier docstrings pour les fonctions de l'API2 ;
+  - Version prévisionnelle du ReadMe.
 - 22/04/2024
   - Corrections sur le carnet de bord ;
   - Ajout d'un message pour indiquer que l'utilisateur doit se rendre dans le terminal en cas d'erreur pour les pages HTML des API 1 et 2 ;

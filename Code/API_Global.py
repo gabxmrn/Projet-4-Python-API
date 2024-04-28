@@ -124,23 +124,11 @@ class Application(tk.Tk):
             if request.method == 'POST':
                 # Récupération des données
                 data = request.get_json()
-                print(data)
 
                 # Traitement des données
                 input_api2 = Inputs_API2(data)
                 if input_api2.verif_params():
                     opt = input_api2.traitement_params()
-
-                    # ! Output paramètres dans la page HTML => pb: s'affiche tjrs derrière le 1er bouton
-                    html_content = f"<p>Importation et traitement des données réussis.</p>"
-                    html_content += "<p>Paramètres sélectionnés :</p>"
-                    html_content += "<ul>"
-                    for key, value in opt.items():
-                        html_content += f"<li>{key}: {value}</li>"
-                    html_content += "</ul>"
-                    html_content += "<p>La fonction a été exécutée.</p>"
-
-                    return html_content
 
             return jsonify({"error": "Method not allowed"}), 405
                
