@@ -38,7 +38,7 @@ class Inputs_API2:
         if self.__data['hist_rt'] == 'rt':
             
             # Contrôle - indicateur à calculer
-            if 'indic' not in self.__data or self.__data['indic'] is None:
+            if 'fnc' not in self.__data or self.__data['fnc'] is None:
                 raise ValueError("Erreur : Veuillez sélectionner un indicateur à calculer.")
 
             # Contrôle - période de calcul

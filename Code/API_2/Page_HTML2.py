@@ -101,7 +101,7 @@ class API_2_ContentGenerator:
             var tickers = document.getElementById("tickers").value;
             var f = document.getElementById("f").value;
             var n = parseInt(document.getElementById("period").value);
-            var indic = Array.from(document.getElementById("indic").selectedOptions).map(option => option.value);
+            var indic = document.getElementById("indic").value;
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/run_code_api2", true);
