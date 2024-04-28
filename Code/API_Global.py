@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import webbrowser
+
+import requests
 from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
-import API_2.page_HTML2 as Page_HTML2
-from API_2.inputs_API2 import Inputs_API2
+import API_2.Page_HTML2 as Page_HTML2
+from API_2.Inputs_API2 import Inputs_API2
 import API_3.page_HTML3 as Page_HTML3
 
 
@@ -75,7 +77,7 @@ class Application(tk.Tk):
         """ Démarre le projet 2 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 2
         self.destroy()
-        self.start_flask_server(5001, project)
+        self.start_flask_server(5027, project)
         pass
 
     def lancer_projet_3(self):
@@ -108,14 +110,6 @@ class Application(tk.Tk):
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
         # TODO: Code exécuté par le bouton de l'API 1
-        @app.route('/run_code_api1', methods=['POST'])
-        def run_code_api1():
-            if request.method == 'POST':
-                # Récupération des données
-                data = request.get_json()
-                print(data)
-
-            return jsonify({"error": "Method not allowed"}), 405
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -123,13 +117,14 @@ class Application(tk.Tk):
             if request.method == 'POST':
                 # Récupération des données
                 data = request.get_json()
+                print(data)
 
                 # Traitement des données
                 input_api2 = Inputs_API2(data)
                 if input_api2.verif_params():
                     opt = input_api2.traitement_params()
 
-                    # Output paramètres dans la page HTML
+                    # ! Output paramètres dans la page HTML => pb: s'affiche tjrs derrière le 1er bouton
                     html_content = f"<p>Importation et traitement des données réussis.</p>"
                     html_content += "<p>Paramètres sélectionnés :</p>"
                     html_content += "<ul>"
@@ -141,13 +136,5 @@ class Application(tk.Tk):
                     return html_content
 
             return jsonify({"error": "Method not allowed"}), 405
-        
+               
         # TODO: Code exécuté par le bouton de l'API 3
-        @app.route('/run_code_api3', methods=['POST'])
-        def run_code_api3():
-            if request.method == 'POST':
-                # Récupération des données
-                data = request.get_json()
-                print(data)
-
-            return jsonify({"error": "Method not allowed"}), 405
