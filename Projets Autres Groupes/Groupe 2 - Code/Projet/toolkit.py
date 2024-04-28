@@ -2,6 +2,7 @@ import dill
 import base64
 import pandas as pd
 
+
 def b642func(fb64: str) -> callable:
     """ Converts a base64 representation of a python function back to its original form. """
     # Converting the base64 string to bytes
@@ -9,12 +10,14 @@ def b642func(fb64: str) -> callable:
     # Returning the original function
     return dill.loads(fbyt)
 
+
 def func2b64(func: callable) -> str:
     """ Serializes a python function into a base64 string. """
     # Serializing the original function into bytes
     fbyt = dill.dumps(func)
     # Returning the base64 string version of the function
     return base64.b64encode(fbyt).decode('utf-8')
+
 
 def simple_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: list[str], n: int) -> list[dict[str, float]]:
     """
@@ -45,9 +48,9 @@ def simple_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: list[st
         for endpoint in ohlcv:
             # Computing the n period simple moving average for the ticker-ohlcv pair
             sma = pd.Series(
-                data[f'{ticker}-{endpoint}'].rolling(window=n, min_periods=n).mean(), 
-                name=f'{ticker}-{endpoint}-Sma' # Series column name
-                )
+                data[f'{ticker}-{endpoint}'].rolling(window=n, min_periods=n).mean(),
+                name=f'{ticker}-{endpoint}-Sma'  # Series column name
+            )
             # Aggregating the computed Series into the results DataFrame
             results = pd.concat([results, sma], axis=1)
     # Adding candlestick opening dates then dropping NaN's
@@ -55,7 +58,9 @@ def simple_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: list[st
     # Returning the results DataFrame as a dict
     return results.to_dict(orient='records')
 
-def exponential_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: list[str], n: int) -> list[dict[str, float]]:
+
+def exponential_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: list[str], n: int) -> list[
+    dict[str, float]]:
     """
     Computes the exponential moving average for a set of crypto-assets ticker-ohlcv pairs.
 
@@ -85,14 +90,15 @@ def exponential_moving_average(data: pd.DataFrame, tickers: list[str], ohlcv: li
             # Computing the n period exponential moving average for the ticker-ohlcv pair
             ema = pd.Series(
                 data[f'{ticker}-{endpoint}'].ewm(span=n, min_periods=n, adjust=False).mean(),
-                name=f'{ticker}-{endpoint}-Ema' # Series column name
-                )
+                name=f'{ticker}-{endpoint}-Ema'  # Series column name
+            )
             # Aggregating the computed Series into the results DataFrame
             results = pd.concat([results, ema], axis=1)
     # Adding candlestick opening dates then dropping NaN's
     results = pd.concat([data['Time'], results], axis=1).dropna()
     # Returning the results DataFrame as a dict
     return results.to_dict(orient='records')
+
 
 def moving_average_convergence_divergence(data: pd.DataFrame, tickers: list[str]) -> list[dict[str, float]]:
     """
@@ -104,7 +110,7 @@ def moving_average_convergence_divergence(data: pd.DataFrame, tickers: list[str]
         DataFrame of "Close" prices for one or multiple USDT quoted crypto-assets.
     tickers: list[str]
         List of asset tickers for which the macd will be computed.
-    
+
     Returns
     ----------
     list[dict[str, float]]:
@@ -130,6 +136,7 @@ def moving_average_convergence_divergence(data: pd.DataFrame, tickers: list[str]
     # Returning the results DataFrame as a dict
     return results.to_dict(orient='records')
 
+
 def relative_strenght_index(data: pd.DataFrame, tickers: list[str], n: int) -> list[dict[str, float]]:
     """
     Computes the relative strenght index for a set of crypto-assets tickers.
@@ -142,7 +149,7 @@ def relative_strenght_index(data: pd.DataFrame, tickers: list[str], n: int) -> l
         List of asset tickers for which the rsi will be computed.
     n: int
         Moving average's rolling window size.
-    
+
     Returns
     ----------
     list[dict[str, float]]:
@@ -156,7 +163,7 @@ def relative_strenght_index(data: pd.DataFrame, tickers: list[str], n: int) -> l
         # Computing the price delta
         delta = data[f'{ticker}-Close'].diff(periods=1)
         # Calculating the n period moving average of gains 
-        gains = delta.where(cond=delta > 0, other=0) .rolling(window=n, min_periods=n).mean()
+        gains = delta.where(cond=delta > 0, other=0).rolling(window=n, min_periods=n).mean()
         # Calculating the n period moving average of absolute losses
         losses = - delta.where(cond=delta < 0, other=0).rolling(window=n, min_periods=n).mean()
         # Calculating the relative strenght ratio
@@ -169,6 +176,7 @@ def relative_strenght_index(data: pd.DataFrame, tickers: list[str], n: int) -> l
     results = pd.concat([data['Time'], results], axis=1).dropna()
     # Returning the results DataFrame as a dict
     return results.to_dict(orient='records')
+
 
 def bollinger_bands(data: pd.DataFrame, tickers: list[str], n: int, m: int) -> list[dict[str, float]]:
     """
@@ -192,7 +200,7 @@ def bollinger_bands(data: pd.DataFrame, tickers: list[str], n: int, m: int) -> l
         and bollinger bands data as value.
     """
     # Results DataFrame
-    results = pd.DataFrame() 
+    results = pd.DataFrame()
     # Looping through specified tickers
     for ticker in tickers:
         # Computing the ticker's typical price as the average of low, high and closing prices
@@ -211,6 +219,7 @@ def bollinger_bands(data: pd.DataFrame, tickers: list[str], n: int, m: int) -> l
     results = pd.concat([data['Time'], results], axis=1).dropna()
     # Returning the results DataFrame as a dict 
     return results.to_dict(orient='records')
+
 
 if __name__ == '__main__':
     pass

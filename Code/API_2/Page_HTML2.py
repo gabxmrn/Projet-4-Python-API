@@ -1,62 +1,46 @@
-from Toolboxs.html_toolbox import HTMLToolBox
+import sys
+
+sys.path.append("C:/Users/bossd/OneDrive/Dauphine/M2/Python API/Projet-4-Python-API-main/Code/Toolboxs")
+
+from html_toolbox import HTMLToolBox
 
 
 def construction_API2() -> str:
-    """
-    Fonction qui génère le contenu de la page API2.
-
-    Returns:
-        str: Le contenu HTML de la page API2.
-    """
     API2 = API_2_ContentGenerator()
     return API2.generate_page()
 
 
-class API_2_ContentGenerator: 
-    """
-    Classe pour générer le contenu de la page API2.
-    """
-
+class API_2_ContentGenerator:
     def __init__(self) -> None:
-        """
-        Initialise une nouvelle instance de la classe API_2_ContentGenerator.
-        """
         super().__init__()
-    
+
     def generate_page(self) -> str:
-        """
-        Génère le contenu HTML de la page API2.
+        # Sections de la page
+        websocket_section = self.generate_websocket_section()
+        specified_indicators_section = self.generate_specified_indicators_section()
+        custom_indicators_section = self.generate_custom_indicators_section()
 
-        Returns:
-            str: Le contenu HTML de la page API2.
-        """
+        # Génération de la page HTML
+        return websocket_section + specified_indicators_section + custom_indicators_section
 
-        # Saut de ligne
-        line_break = HTMLToolBox.generate_line_break()
+    def generate_websocket_section(self) -> str:
+        # Contenu pour la section Websocket
+        title = HTMLToolBox.generate_title("Websocket : Données en direct")
+        description1 = HTMLToolBox.generate_paragraph(
+            "Cette section permet de recevoir des données en temps réel via WebSocket.")
 
-        # Titre du projet
-        project_name = 'Création d’Analytics de Trading Personnalisés via API'
-        title = HTMLToolBox.generate_title(project_name)
-
-        # Descriptif du projet
-        project_description = """API qui permet à l'utilisateur de créer et de recevoir des analytics de trading personnalisés. 
-                            Cet API fournit une large gamme d'indicateurs d'analyse technique appliqués aux marchés de crypto-actifs.
-                            Les utilisateurs peuvent également soumettre et appliquer leurs propres fonctions d'analyse Python3 personalisées aux données historiques et à celles en temps réel. """
-        description = HTMLToolBox.generate_paragraph(project_description)
-
-        # Sélection de la fonction
-        function_title = HTMLToolBox.generate_input_selection("Sélection de la fonction à utiliser :")
-        remarque = HTMLToolBox.generate_paragraph("Pour tester le code, veuillez entrer : fnc1, fnc2 ou fnc3.")
-        fnc = HTMLToolBox.generate_str_input_box("fnc","")
-    
         # Sélection des paramètres de marché
         parameter_title = HTMLToolBox.generate_input_selection("Sélection des paramètres de marché :")
 
         # Liste des tickers de crypto-actifs (USDT quote-asset)
-        ticker_input_box = HTMLToolBox.generate_tick_input_box("tickers","Ticker des crypto-actifs (USDT quote-asset) :")
+        ticker_input_box = HTMLToolBox.generate_tick_input_box("tickers",
+                                                               "Ticker des crypto-actifs (USDT quote-asset) :")
+
+        description2 = HTMLToolBox.generate_paragraph(
+            "Exemple : pour le BTC, veuillez écrire BTCUSDT.")
 
         # Type de données à récupérer
-        data_type = ["Open","High", "Low", "Close", "Volume"]
+        data_type = ["Open", "High", "Low", "Close", "Volume"]
         dropdown_data_type = "<label for='type' style='font-family: Helvetica, sans-serif; font-weight: bold; display: block;'>Type de données à récupérer : </label>"
         dropdown_data_type += HTMLToolBox.generate_dropdown_menu("datatype", data_type, True)
 
@@ -65,48 +49,87 @@ class API_2_ContentGenerator:
         date2_input_box = HTMLToolBox.generate_date_input_box("endDate", "Date de fin :")
 
         # Fréquence
-        freq_input_box = HTMLToolBox.generate_str_input_box("freq","Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m ou 1y) :")
+        freq_input_box = HTMLToolBox.generate_str_input_box("freq",
+                                                            "Fréquence entre les points de données (ex. 1s, 1min, 1h, 1d, 1w, 1m ou 1y) :")
+        # Boîte de saisie pour la durée de la période
+        period_input_box = HTMLToolBox.generate_str_input_box("period", "Durée de la période de calcul :")
 
-        #  Message à l'utilisateur
-        msg = HTMLToolBox.generate_paragraph("Le bouton ci-dessous exécute le code. Si jamais vous n'avez pas rentré les paramètres appropriés, un message d'erreur s'affichera dans la console." +
-                                             "De la même manière, si rien ne s'affiche sur la page HTML, veuillez regarder dans la console.")
-
-        # Bouton pour lancer le code
+        # Boutons pour les analyses techniques via WebSocket
         button_code = """
-        <div style="display: flex; justify-content: center;">
-            <button id="BtnAPI2" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px;">Importation des paramètres :</button>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button id="BtnSMA" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">SMA</button>
+            <button id="BtnEMA" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">EMA</button>
+            <button id="BtnMACD" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">MACD</button>
+            <button id="BtnRSI" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">RSI</button>
+            <button id="BtnBBands" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Bollinger Bands</button>
         </div>
         <div id="result"></div>
         """
-        
-        # Récupération des données entrées par l'utilisateur
+
+        # Script pour gérer les clics des boutons
         script = """
         <script>
-            document.getElementById("BtnAPI2").addEventListener("click", function() {
-                var startDate = document.getElementById("startDate").value;
-                var endDate = document.getElementById("endDate").value;
-                var freq = document.getElementById("freq").value;
-                var dataType = Array.from(document.getElementById("datatype").selectedOptions).map(option => option.value);
-                var tick = document.getElementById("tickers").value;
-                var fnc = document.getElementById("fnc").value;
+        document.getElementById("BtnRSI").addEventListener("click", function() {
+    // Fonction pour reformater les dates en format attendu par l'API
+    function formatDate(dateStr) {
+        const parts = dateStr.split('-'); // suppose que la date est en format JJ-MM-AAAA
+        return parts[2] + '-' + parts[1] + '-' + parts[0]; // reformatage en AAAA-MM-JJ
+    }
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/run_code_api2", true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        document.getElementById("result").innerHTML = xhr.responseText;
-                    }
-                };
-                xhr.send(JSON.stringify({fnc:fnc, startDate: startDate, endDate: endDate, dataType:dataType, freq: freq, tickers:tick}));
-            });
+    var tickers = document.getElementById("tickers").value;
+    var dataType = Array.from(document.getElementById("datatype").selectedOptions).map(option => option.value)[0]; // suppose que le datatype est un seul élément
+    var frequency = document.getElementById("freq").value;
+    var startDate = formatDate(document.getElementById("startDate").value);
+    var endDate = formatDate(document.getElementById("endDate").value);
+    var n = parseInt(document.getElementById("period").value); // assurez-vous que c'est un entier
+
+    var params = {
+        tickers: tickers,
+        ohlcv: dataType,
+        freq: frequency,
+        start_date: startDate,
+        end_date: endDate,
+        n: n
+    };
+
+    fetch(`/api/v1/ta/rsi?` + new URLSearchParams(params), {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        document.getElementById("result").innerHTML = JSON.stringify(data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        document.getElementById("result").innerHTML = 'Error: ' + error;
+    });
+});
+
         </script>
+
         """
-        
-        # Génération de la page HTML
-        return title + description + \
-            function_title + remarque + fnc + parameter_title + \
-            ticker_input_box + dropdown_data_type + \
-            date1_input_box + date2_input_box + freq_input_box + msg + \
-            line_break + button_code + script + line_break + line_break
-    
+
+        return title + description1 + parameter_title + \
+            ticker_input_box + description2 + dropdown_data_type + \
+            date1_input_box + date2_input_box + freq_input_box + period_input_box + button_code + script
+
+    def generate_specified_indicators_section(self) -> str:
+        # Contenu pour la section des indicateurs spécifiés
+        title = HTMLToolBox.generate_title("Indicateurs spécifiés : Données historiques")
+        description = HTMLToolBox.generate_paragraph(
+            "Cette section permet de calculer des indicateurs techniques spécifiés à partir de données historiques.")
+        # Ajouter plus de contenu ici si nécessaire
+
+        return title + description
+
+    def generate_custom_indicators_section(self) -> str:
+        # Contenu pour la section des indicateurs personnalisés
+        title = HTMLToolBox.generate_title("Indicateurs personnalisés : Données historiques")
+        description = HTMLToolBox.generate_paragraph(
+            "Cette section permet à l'utilisateur de définir et appliquer ses propres fonctions d'analyse sur des données historiques.")
+        # Ajouter plus de contenu ici si nécessaire
+
+        return title + description
+
+# Ceci est une simplification, ajoutez les éléments de formulaire, les scripts et autres détails nécessaires.

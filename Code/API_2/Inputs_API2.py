@@ -80,12 +80,14 @@ class Inputs_API2:
 
         # Sélection des options
         options = {
-            'function': self.__data['fnc'],
+            #'function': self.__data['fnc'],
             'tickers': liste_tick,
             'ohlcv': type_ok,
             'freq': self.__data['freq'],
-            'start_date': int(dt.datetime.strptime(self.__data['startDate'], "%Y-%m-%d").timestamp()),
-            'end_date' : int(dt.datetime.strptime(self.__data['endDate'], "%Y-%m-%d").timestamp())
+            #'start_date': int(dt.datetime.strptime(self.__data['startDate'], "%Y-%m-%d").timestamp()),
+            #'end_date' : int(dt.datetime.strptime(self.__data['endDate'], "%Y-%m-%d").timestamp())
+            'start_date': self.__data['startDate'],
+            'end_date' : self.__data['endDate']
         }
 
         # Exécution de la fonction sélectionnée

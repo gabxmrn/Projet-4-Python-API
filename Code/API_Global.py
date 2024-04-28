@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import webbrowser
+
+import requests
 from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
-import API_2.page_HTML2 as Page_HTML2
-from API_2.inputs_API2 import Inputs_API2
-import API_3.page_HTML3 as Page_HTML3
+import API_2.Page_HTML2 as Page_HTML2
+from API_2.Inputs_API2 import Inputs_API2
+import API_3.Page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -75,7 +77,7 @@ class Application(tk.Tk):
         """ Démarre le projet 2 en fermant la fenêtre actuelle et en lançant le serveur Flask sur le port 5000. """
         project = 2
         self.destroy()
-        self.start_flask_server(5001, project)
+        self.start_flask_server(5027, project)
         pass
 
     def lancer_projet_3(self):
@@ -108,14 +110,6 @@ class Application(tk.Tk):
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
         # TODO: Code exécuté par le bouton de l'API 1
-        @app.route('/run_code_api1', methods=['POST'])
-        def run_code_api1():
-            if request.method == 'POST':
-                # Récupération des données
-                data = request.get_json()
-                print(data)
-
-            return jsonify({"error": "Method not allowed"}), 405
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -123,6 +117,7 @@ class Application(tk.Tk):
             if request.method == 'POST':
                 # Récupération des données
                 data = request.get_json()
+                print(data)
 
                 # Traitement des données
                 input_api2 = Inputs_API2(data)
@@ -141,13 +136,21 @@ class Application(tk.Tk):
                     return html_content
 
             return jsonify({"error": "Method not allowed"}), 405
+
+        @app.route('/trigger_rsi', methods=['POST'])
+        def trigger_rsi():
+            data = request.json
+            print(data)
+            try:
+                response = requests.get("http://127.0.0.1:5000/api/v1/ta/rsi", params=data)
+                if response.status_code == 200:
+                    return jsonify(response.json()), 200
+                else:
+                    return jsonify({'error': response.text}), response.status_code
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
+
+        #if __name__ == "__main__":
+        #    app.run(debug=True)
         
         # TODO: Code exécuté par le bouton de l'API 3
-        @app.route('/run_code_api3', methods=['POST'])
-        def run_code_api3():
-            if request.method == 'POST':
-                # Récupération des données
-                data = request.get_json()
-                print(data)
-
-            return jsonify({"error": "Method not allowed"}), 405

@@ -9,13 +9,16 @@ import inspect
 import ast
 import datetime as dt
 
+
 class UnsafeDependenciesError(Exception):
     """ Raised when the user custom trading analytics function's imported dependencies are deemed unsafe. """
     pass
 
+
 class NonJsonSerializableError(Exception):
     """ Raised when the output of the user custom trading analytics function is not json serializable. """
     pass
+
 
 def function_checker(func: str) -> None:
     """ Checks for unsafe dependencies inside a user custom function. """
@@ -31,25 +34,27 @@ def function_checker(func: str) -> None:
                 # Checking for unsafe modules 
                 if alias.name in unsafe_modules:
                     # Raise an error if the module is deemed unsafe
-                    raise UnsafeDependenciesError(f"Unsafe import: please remove {alias.name} "\
+                    raise UnsafeDependenciesError(f"Unsafe import: please remove {alias.name} " \
                                                   "from the function's definition")
         # Checking for from imports 
         elif isinstance(node, ast.ImportFrom):
             if node.module in unsafe_modules:
-                raise UnsafeDependenciesError(f"Unsafe import: imports from {node.module} "\
-                                              "are not allowed, please remove it from "\
-                                                "the function's definition")
+                raise UnsafeDependenciesError(f"Unsafe import: imports from {node.module} " \
+                                              "are not allowed, please remove it from " \
+                                              "the function's definition")
+
 
 def results_checker(result: any) -> None:
     """ Checks for the validity of the user custom analysis function output. """
-    allowed_obj = [dict, list, tuple, str, int, float, bool, None] # List of json serializable objects
+    allowed_obj = [dict, list, tuple, str, int, float, bool, None]  # List of json serializable objects
     # Checking for the output type
     if not type(result) in allowed_obj:
         # Raise an error if the output type is not json serializable
-        raise NonJsonSerializableError(f'{type(result)} is not json serializable, '\
-                                       'please refactor the output format to an allowed type '\
+        raise NonJsonSerializableError(f'{type(result)} is not json serializable, ' \
+                                       'please refactor the output format to an allowed type ' \
                                        f'such as {allowed_obj}')
-    
+
+
 def find_timedelta(freq: str) -> dict[str, int]:
     """ Returns the correct dt.timedelta argument based on the frequency provided. """
     # The maximum number of datapoints that can be retrieved through a single request
@@ -64,16 +69,17 @@ def find_timedelta(freq: str) -> dict[str, int]:
     return {
         table[freq]: lag
     }
-    
-swagger_url = '/api/v1/swagger' # API docs endpoint
-api_url = '/static/swagger.json' # Swagger config file location
+
+
+swagger_url = '/api/v1/swagger'  # API docs endpoint
+api_url = '/static/swagger.json'  # Swagger config file location
 
 # Define the blueprint for swagger API documentation
 swagger_blueprint = get_swaggerui_blueprint(
     base_url=swagger_url,
     api_url=api_url,
     config={
-        'app_name': 'Trading Analytics API' 
+        'app_name': 'Trading Analytics API'
     }
 )
 # Define the app instance
@@ -83,6 +89,7 @@ socketio = SocketIO(app)
 # Register the swagger blueprint
 app.register_blueprint(blueprint=swagger_blueprint, url_prefix=swagger_url)
 
+
 @app.route('/api/v1/ta/sma', methods=['GET'])
 def sma():
     """ Handles the simple moving average GET request. """
@@ -90,7 +97,7 @@ def sma():
         # Gathering tickers inside a list
         tickers = [
             ticker.strip() for ticker in request.args['tickers'].split(',')
-            if ticker.strip() # To skip missplaced commas
+            if ticker.strip()  # To skip missplaced commas
         ]
         # Gathering ohlcv endpoints inside a list
         ohlcv = [
@@ -121,19 +128,21 @@ def sma():
     except Exception as e:
         # Returning error details through a json file linked to the "error" key
         return jsonify({'error': str(e)}), 400
-    
+
+
 @socketio.on(message='sma')
 def handle_sma_request(data: dict[str, any]):
     """ Handles the simple moving average websocket request. """
+
     def send_sma_response():
         """ Sends the simple moving average latest results every minute. """
         try:
             while True:
                 # Define the last data point as today
                 end_date = dt.datetime.today()
-                # Define the first data point based on the data frequency provided 
+                # Define the first data point based on the data frequency provided
                 start_date = end_date - dt.timedelta(**find_timedelta(freq))
-                # Initializing the market data loading tool 
+                # Initializing the market data loading tool
                 dl = MarketDataLoader(tickers, ohlcv, freq=freq, start_date=start_date, end_date=end_date)
                 # Retrieving data
                 prices = dl.get_candlesticks()
@@ -141,12 +150,13 @@ def handle_sma_request(data: dict[str, any]):
                 results = simple_moving_average(prices, tickers, ohlcv, n)[-1]
                 # Switching from timestamps to strings to avoid conversion errors
                 results['Time'] = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                # Sending back results to the client 
+                # Sending back results to the client
                 socketio.emit('sma_response', {'output': results})
                 # Sleeping for a minute
                 time.sleep(60)
         except Exception as e:
             socketio.emit('sma_response', {'error': str(e)})
+
     try:
         # Retrieving sent tickers
         tickers = data['tickers']
@@ -165,6 +175,7 @@ def handle_sma_request(data: dict[str, any]):
         # Sending error details to the client
         socketio.emit('sma_response', {'error': str(e)})
 
+
 @app.route('/api/v1/ta/ema', methods=['GET'])
 def ema():
     """ Handles the exponential moving average GET request. """
@@ -172,7 +183,7 @@ def ema():
         # Gathering tickers inside a list
         tickers = [
             ticker.strip() for ticker in request.args['tickers'].split(',')
-            if ticker.strip() # To skip missplaced commas
+            if ticker.strip()  # To skip missplaced commas
         ]
         # Gathering ohlcv endpoints inside a list
         ohlcv = [
@@ -204,16 +215,18 @@ def ema():
         # Returning error details through a json file linked to the "error" key
         return jsonify({'error': str(e)}), 400
 
+
 @socketio.on(message='ema')
 def handle_ema_request(data: dict[str, any]):
     """ Handles the exponential moving average websocket request. """
+
     def send_ema_response():
         """ Sends the exponential moving average latest results every minute. """
         try:
             while True:
                 # Define the last data point as today
                 end_date = dt.datetime.today()
-                # Define the first data point based on the data frequency provided 
+                # Define the first data point based on the data frequency provided
                 start_date = end_date - dt.timedelta(**find_timedelta(freq))
                 # Initializing the market data loading tool
                 dl = MarketDataLoader(tickers, ohlcv, freq=freq, start_date=start_date, end_date=end_date)
@@ -223,12 +236,13 @@ def handle_ema_request(data: dict[str, any]):
                 results = exponential_moving_average(prices, tickers, ohlcv, n)[-1]
                 # Switching from timestamps to strings to avoid conversion errors
                 results['Time'] = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                # Sending back results to the client 
+                # Sending back results to the client
                 socketio.emit('ema_response', {'output': results})
                 # Sleeping for a minute
                 time.sleep(60)
         except Exception as e:
             socketio.emit('ema_response', {'error': str(e)})
+
     try:
         # Retrieving sent tickers
         tickers = data['tickers']
@@ -245,8 +259,9 @@ def handle_ema_request(data: dict[str, any]):
     # Checking for errors while the connection is up
     except Exception as e:
         # Sending error details to the client
-        socketio.emit('ema_response', {'error': str(e)})   
-    
+        socketio.emit('ema_response', {'error': str(e)})
+
+
 @app.route('/api/v1/ta/macd', methods=['GET'])
 def macd():
     """ Handles the moving average convergence divergence GET request. """
@@ -254,7 +269,7 @@ def macd():
         # Gathering tickers inside a list
         tickers = [
             ticker.strip() for ticker in request.args['tickers'].split(',')
-            if ticker.strip() # To skip missplaced commas
+            if ticker.strip()  # To skip missplaced commas
         ]
         # Define needed endpoints for macd computation
         ohlcv = ['Close']
@@ -280,19 +295,21 @@ def macd():
     except Exception as e:
         # Returning error details through a json file linked to the "error" key
         return jsonify({'error': str(e)}), 400
-    
+
+
 @socketio.on(message='macd')
 def handle_macd_request(data: dict[str, any]):
     """ Handles the moving average convergence divergence websocket request. """
+
     def send_macd_response():
         """ Sends the moving average convergence divergence latest results every minute. """
         try:
             while True:
                 # Define the last data point as today
                 end_date = dt.datetime.today()
-                # Define the first data point based on the data frequency provided  
+                # Define the first data point based on the data frequency provided
                 start_date = end_date - dt.timedelta(**find_timedelta(freq))
-                # Initializing the market data loading tool 
+                # Initializing the market data loading tool
                 dl = MarketDataLoader(tickers, ohlcv, freq=freq, start_date=start_date, end_date=end_date)
                 # Retrieving data
                 prices = dl.get_candlesticks()
@@ -300,12 +317,13 @@ def handle_macd_request(data: dict[str, any]):
                 results = moving_average_convergence_divergence(prices, tickers)[-1]
                 # Switching from timestamps to strings to avoid conversion errors
                 results['Time'] = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                # Sending back results to the client 
+                # Sending back results to the client
                 socketio.emit('macd_response', {'output': results})
                 # Sleeping for a minute
                 time.sleep(60)
         except Exception as e:
             socketio.emit('macd_response', {'error': str(e)})
+
     try:
         # Retrieving sent tickers
         tickers = data['tickers']
@@ -320,7 +338,8 @@ def handle_macd_request(data: dict[str, any]):
     # Checking for errors while the connection is up
     except Exception as e:
         # Sending error details to the client
-        socketio.emit('macd_response', {'error': str(e)})  
+        socketio.emit('macd_response', {'error': str(e)})
+
 
 @app.route('/api/v1/ta/rsi', methods=['GET'])
 def rsi():
@@ -329,7 +348,7 @@ def rsi():
         # Gathering tickers inside a list
         tickers = [
             ticker.strip() for ticker in request.args['tickers'].split(',')
-            if ticker.strip() # To skip missplaced commas
+            if ticker.strip()  # To skip missplaced commas
         ]
         # Define needed endpoints for rsi computation
         ohlcv = ['Close']
@@ -357,17 +376,19 @@ def rsi():
     except Exception as e:
         # Returning error details through a json file linked to the "error" key
         return jsonify({'error': str(e)}), 400
-    
+
+
 @socketio.on(message='rsi')
 def handle_rsi_request(data: dict[str, any]):
     """ Handles the relative strenght index websocket request. """
+
     def send_rsi_response():
         """ Sends the relative strenght index latest results every minute. """
         try:
             while True:
                 # Define the last data point as today
                 end_date = dt.datetime.today()
-                # Define the first data point based on the data frequency provided  
+                # Define the first data point based on the data frequency provided
                 start_date = end_date - dt.timedelta(**find_timedelta(freq))
                 # Initializing the market data loading tool
                 dl = MarketDataLoader(tickers, ohlcv, freq=freq, start_date=start_date, end_date=end_date)
@@ -377,12 +398,13 @@ def handle_rsi_request(data: dict[str, any]):
                 results = relative_strenght_index(prices, tickers, n)[-1]
                 # Switching from timestamps to strings to avoid conversion errors
                 results['Time'] = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                # Sending back results to the client 
+                # Sending back results to the client
                 socketio.emit('rsi_response', {'output': results})
                 # Sleeping for a minute
                 time.sleep(60)
         except Exception as e:
             socketio.emit('rsi_response', {'error': str(e)})
+
     try:
         # Retrieving sent tickers
         tickers = data['tickers']
@@ -399,7 +421,8 @@ def handle_rsi_request(data: dict[str, any]):
     # Checking for errors while the connection is up
     except Exception as e:
         # Sending error details to the client
-        socketio.emit('rsi_response', {'error': str(e)})  
+        socketio.emit('rsi_response', {'error': str(e)})
+
 
 @app.route('/api/v1/ta/bbands', methods=['GET'])
 def bbands():
@@ -408,7 +431,7 @@ def bbands():
         # Gathering tickers inside a list
         tickers = [
             ticker.strip() for ticker in request.args['tickers'].split(',')
-            if ticker.strip() # To skip missplaced commas
+            if ticker.strip()  # To skip missplaced commas
         ]
         # Define needed endpoints for bollinger bands computation
         ohlcv = ['Low', 'High', 'Close']
@@ -438,17 +461,19 @@ def bbands():
     except Exception as e:
         # Returning error details through a json file linked to the "error" key
         return jsonify({'error': str(e)}), 400
-    
+
+
 @socketio.on(message='bbands')
 def handle_bbands_request(data: dict[str, any]):
     """ Handles the bollinger bands websocket request. """
+
     def send_bbands_response():
         """ Sends the bollinger bands latest results every minute. """
         try:
             while True:
                 # Define the last data point as today
                 end_date = dt.datetime.today()
-                # Define the first data point based on the data frequency provided  
+                # Define the first data point based on the data frequency provided
                 start_date = end_date - dt.timedelta(**find_timedelta(freq))
                 # Initializing the market data loading tool
                 dl = MarketDataLoader(tickers, ohlcv, freq=freq, start_date=start_date, end_date=end_date)
@@ -458,12 +483,13 @@ def handle_bbands_request(data: dict[str, any]):
                 results = bollinger_bands(prices, tickers, n, m)[-1]
                 # Switching from timestamps to strings to avoid conversion errors
                 results['Time'] = dt.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-                # Sending back results to the client 
+                # Sending back results to the client
                 socketio.emit('bbands_response', {'output': results})
                 # Sleeping for a minute
                 time.sleep(60)
         except Exception as e:
             socketio.emit('bbands_response', {'error': str(e)})
+
     try:
         # Retrieving sent tickers
         tickers = data['tickers']
@@ -482,8 +508,9 @@ def handle_bbands_request(data: dict[str, any]):
     # Checking for errors while the connection is up
     except Exception as e:
         # Sending error details to the client
-        socketio.emit('bbands_response', {'error': str(e)}) 
-    
+        socketio.emit('bbands_response', {'error': str(e)})
+
+
 @app.route('/api/v1/custom/submit', methods=['POST'])
 def submit():
     """ Handles the user custom trading analytics function POST request. """
@@ -497,11 +524,11 @@ def submit():
         # Collecting the function's keyword arguments, if not passed by the client set it to an empty dict
         kwargs = request.json.get('kwargs', {})
         # Reading individual data loading parameters
-        tickers = options['tickers'] # Tickers list
-        ohlcv = options['ohlcv'] # Ohlcv endpoints list
-        freq = options['freq'] # Data frequency
-        start_date = dt.datetime.fromtimestamp(options['start_date']) # Starting date
-        end_date = dt.datetime.fromtimestamp(options['end_date']) # Ending date
+        tickers = options['tickers']  # Tickers list
+        ohlcv = options['ohlcv']  # Ohlcv endpoints list
+        freq = options['freq']  # Data frequency
+        start_date = dt.datetime.fromtimestamp(options['start_date'])  # Starting date
+        end_date = dt.datetime.fromtimestamp(options['end_date'])  # Ending date
         # Checking for unsafe dependencies inside the posted function
         function_checker(inspect.getsource(func))
         # Initializing the tool
@@ -518,6 +545,8 @@ def submit():
     except Exception as e:
         # Returning the error details inside a json file with the 'error' key
         return jsonify({'error': str(e)}), 400
-    
+
+
 if __name__ == '__main__':
-    socketio.run(app)
+    # socketio.run(app)
+    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
