@@ -102,6 +102,25 @@ class API_1_ContentGenerator:
                 };
                 xhr.send(JSON.stringify({fnc:fnc, startDateCal: startDateCal, endDateCal: endDateCal, startDateTest: startDateTest, endDateTest: endDateTest, dataticker:dataTicker, freq: freq, amt: amt}));
             });
+
+            function displayOutputs() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/Projet_1_Outputs_API", true);
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            var outputData = JSON.parse(xhr.responseText);
+                            let outputHtml = '<ul>';
+                            for (let key in outputData) {
+                                outputHtml += '<li>' + key + ': ' + outputData[key] + '</li>';
+                            }
+                            outputHtml += '</ul>';
+                            document.getElementById('outputDisplay').innerHTML = outputHtml;
+                        } else {
+                            document.getElementById('outputDisplay').innerHTML = "Erreur lors de la récupération des données.";
+                        }
+                    };
+                    xhr.send();
+                }
         </script>
         """
 
