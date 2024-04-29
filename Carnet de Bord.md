@@ -92,6 +92,18 @@ Nous avons pour objectif de développer une interface permettant :
 - Pour chaque API, présentation des outputs (graphiques, tableaux, valeurs, etc.) ;
 - Les outputs seront testés avec des fonctions Mock.
 
+### Clara - Fonctionnalités & Focus sur le projet 1
+
+Lorsque l'utilisateur lance l'application, une fenêtre graphique s'ouvre avec trois boutons, chacun représentant un projet différent :
+
+Projet 1 : API pour le backtesting de stratégies de trading algorithmique,
+Projet 2 : Création d’analytics de trading personnalisés via API,
+Projet 3 : API d’uniformisation pour les échanges de cryptomonnaies.
+
+Pour le projet 1:
+
+Si l'utilisateur a sélectionné le projet 1, une page HTML s'ouvre et il est ainsi possible de remplir les inputs du projet. Le bouton "Importation des paramètres" permet de visualiser les inputs saisis dans la console. Le bouton "Récupération des outputs" permet d'appeler une API qui se substituera aux APIs des projets de nos camarades des autres groupes afin de récupérer des outputs de même nature. Cette API se situe dans le script API_Global, et est appelée grâce à la fonction projet_1_outputs_api. Il est ainsi possible de modifier le contenu de cette fonction une fois que le projet "API pour le backtesting de stratégies de trading algorithmique" sera finalisé par nos camarades. Les outpus s'affichent sur la même page HTML que les inputs.
+
 ### Joudy - Premiers tests
 
 Notre projet consiste en la création d'une interface utilisateur qui a pour objectif d'intégrer et de centraliser les fonctionnalités de trois projets distincts développés par d'autres groupes. Notre défi principal réside dans la gestion des API fournies par ces groupes, ainsi que dans leur implémentation au sein d'une API globale. Cette dernière devra être conçue de manière à interagir harmonieusement avec les trois API individuelles à travers une interface unique. De plus, il sera essentiel de mettre en place un système efficace pour la présentation et le stockage des résultats obtenus. Nous devons être capable de réunir ces différents éléments en un ensemble cohérent et fonctionnel.
