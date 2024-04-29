@@ -66,7 +66,7 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 - 20/04/2024
   - Récupération des inputs du projet 1
   - Nombreux Tests afin d'intégrer l'API du projet 1 directement dans notre projet (Tests depuis leur code github : ) / ils ont également intégré une application streamlit dans laquelle un graphique devrait apparaitre
-  - Décision de créer une API fictive dans notre projet qui renverra un dictionnaire d'outputs comme dans leur projet initial
+  - Décision de créer une API fictive dans notre projet qui renverra un dictionnaire d'outputs comme dans leur projet initial car leur code n'était pas fini et donc ne tournait pas
 - 21/04/2024
   - Création de la route de l'API fictive
 - 29/04/2024
