@@ -72,22 +72,22 @@ class API_1_ContentGenerator:
     
         # Boutons pour lancer le code et récupérer les outputs
         button_code = """
-                        <div style="display: flex; justify-content: center;">
         <div style="display: flex; justify-content: center;">
                             <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px; margin-right: 10px;">Importation des paramètres :</button>
-            <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px;">Importation des paramètres :</button>
                             <button onclick="displayOutputs()" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Récupération des outputs</button>
                         </div>
         </div>
                         <div id="result"></div>
-        <div id="result"></div>
                         <div id="outputDisplay"></div>
-                        """
+        """
+
+        #<button onclick="displayOutputs()" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Récupération des outputs</button>
         
         # Récupération des données entrées par l'utilisateur
         script = """
         <script>
             document.getElementById("BtnAPI1").addEventListener("click", function() {
+                
                 var startDateCal = document.getElementById("startDateCal").value;
                 var endDateCal = document.getElementById("endDateCal").value;
                 var startDateTest = document.getElementById("startDateTest").value;
@@ -106,7 +106,7 @@ class API_1_ContentGenerator:
                         document.getElementById("result").innerHTML = xhr.responseText;
                     }
                 };
-                xhr.send(JSON.stringify({fnc:fnc, startDateCal: startDateCal, endDateCal: endDateCal, startDateTest: startDateTest, endDateTest: endDateTest, dataticker:dataTicker, freq: freq, amt: amt}));
+                xhr.send(JSON.stringify({fnc:"fnc", startDateCal:"startDateCal", endDateCal:"endDateCal", startDateTest:"startDateTest", endDateTest: "endDateTest", dataticker:"dataTicker", freq: "freq", amt: "amt"}));
             });
 
             # Appel de l'API qui simule l'API du projet 1 pour ressortir le dictionnaire d'outputs

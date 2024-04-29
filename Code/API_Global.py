@@ -6,9 +6,10 @@ import webbrowser
 import requests
 from flask import Flask, request, jsonify
 import API_1.Page_HTML1 as Page_HTML1
+from API_1.Inputs_API1 import Inputs_API1
 import API_2.Page_HTML2 as Page_HTML2
 from API_2.Inputs_API2 import Inputs_API2
-import API_3.page_HTML3 as Page_HTML3
+#import API_3.page_HTML3 as Page_HTML3
 
 
 class Application(tk.Tk):
@@ -132,6 +133,20 @@ class Application(tk.Tk):
                 'Ratio de Calmar': 0.0037046536093212346
             }
             return jsonify(output_data)
+        
+        # Code exécuté par le bouton de l'API 1
+        @app.route('/run_code_api1', methods=['POST'])
+        def run_code_api1():
+            if request.method == 'POST':
+                # Récupération des données
+                data = request.get_json()
+
+                # Traitement des données
+                input_api1 = Inputs_API1(data)
+                if input_api1.verif_params():
+                    opt = input_api1.traitement_params()
+
+            return jsonify({"error": "Method not allowed"}), 405
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
