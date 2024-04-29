@@ -70,13 +70,19 @@ class API_1_ContentGenerator:
         msg = HTMLToolBox.generate_paragraph("Le bouton ci-dessous exécute le code. Si jamais vous n'avez pas rentré les paramètres appropriés, un message d'erreur s'affichera dans la console." +
                                              "De la même manière, si rien ne s'affiche sur la page HTML, veuillez regarder dans la console.")
     
-        # Bouton pour lancer le code
+        # Boutons pour lancer le code et récupérer les outputs
         button_code = """
+                        <div style="display: flex; justify-content: center;">
         <div style="display: flex; justify-content: center;">
+                            <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px; margin-right: 10px;">Importation des paramètres :</button>
             <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px;">Importation des paramètres :</button>
+                            <button onclick="displayOutputs()" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Récupérer les Outputs</button>
+                        </div>
         </div>
+                        <div id="result"></div>
         <div id="result"></div>
-        """
+                        <div id="outputDisplay"></div>
+                        """
         
         # Récupération des données entrées par l'utilisateur
         script = """
