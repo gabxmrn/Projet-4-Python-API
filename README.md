@@ -4,7 +4,7 @@ Master 272 - Economie & Ingénierie Financière - Année 2023/2024 - Projet : Py
 
 ## Auteurs
 
-Karen Arban, Joudy Benkaddour, Sara Chidawi, Wilhem Frölicher, Gabrielle Morin & Clara Noché.
+Karen Arban, Joudy Benkaddour, Sara Chidawi, Wilhem Fröhlicher, Gabrielle Morin & Clara Noché.
 
 ## Aperçu du projet
 
