@@ -13,8 +13,19 @@ Cet API a pour objectif de fournir une interface graphique permettant à l'utili
 ## Prérequis
 
 Pour lancer ce projet, vous aurez besoin de Python (version 3.8 ou plus).
+Les dépendances spécifiques tels que Flask et Tkinter sont également nécessaires au bon fonctionnement du projet et peuvent être installées via pip.
+Pour installer ces dépendances, veuillez utiliser la ligne de commande suivante : ``` pip install requirements.txt ```
 
-Pour installer les dépendances nécessaires au bon fonctionnement du projet, veuillez utiliser la ligne de commande suivante : ``` pip install requirements.txt ```
+## Fonctionnalités 
+
+Lorsque l'utilisateur lance l'application, une fenêtre graphique s'ouvre avec trois boutons, chacun représentant un projet différent :
+Projet 1 : API pour le backtesting de stratégies de trading algorithmique,
+Projet 2 : Création d’analytics de trading personnalisés via API,
+Projet 3 : API d’uniformisation pour les échanges de cryptomonnaies.
+
+Pour le projet 1:
+Si l'utilisateur a sélectionné le projet 1, une page HTML s'ouvre et il est ainsi possible de remplir les inputs du projet. Le bouton "Importation des paramètres" permet de visualiser les inputs saisis dans la console. Le bouton "Récupération des outputs" permet d'appeler une API qui se substituera aux APIs des projets de nos camarades des autres groupes afin de récupérer des outputs de même nature. Les outpus s'affichent sur cette même page HTML.
+
 
 ## Exécution
 
