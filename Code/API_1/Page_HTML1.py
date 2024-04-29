@@ -76,7 +76,7 @@ class API_1_ContentGenerator:
         <div style="display: flex; justify-content: center;">
                             <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px; margin-right: 10px;">Importation des paramètres :</button>
             <button id="BtnAPI1" style="background-color: lightgreen; padding: 10px 20px; font-size: 16px;">Importation des paramètres :</button>
-                            <button onclick="displayOutputs()" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Récupérer les Outputs</button>
+                            <button onclick="displayOutputs()" style="background-color: lightblue; padding: 10px 20px; font-size: 16px;">Récupération des outputs</button>
                         </div>
         </div>
                         <div id="result"></div>
