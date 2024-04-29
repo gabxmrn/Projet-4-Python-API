@@ -113,10 +113,25 @@ class Application(tk.Tk):
         threading.Thread(target=lambda: app.run(port=port, debug=False)).start()
         webbrowser.open_new_tab(f'http://127.0.0.1:{port}')
 
-        # TODO: Code exécuté par le bouton de l'API 1
-        @app.route('/run_code_api1', methods=['POST'])
-        def run_code_api1():
-            pass
+        # SImulation de l'API du projet 1 pour ressortir les outputs 
+        # La réponse de l'API fournit des statistiques et des analyses de performance pour la stratégie testée dans un dictionnaire
+        @app.route('/Projet_1_Outputs_API')
+        def projet_1_outputs_api():
+            # Dictionnaire d'outputs 
+            output_data = {
+                'Rendement Annuel': 1.09906787617619,
+                'Volatilite Annuelle': 0.04427079325967763,
+                'Ratio de Sharpe': -3.609808326515445,
+                'Skewness': 0.9234094592660941,
+                'Kurtosis': 10.37351565352118,
+                'Semi-Deviation': 0.009548205172359929,
+                'VaR Historique': -0.02038805996511345,
+                'Drawdown Maximal': -3.187857228514659,
+                'Volatilite a la Baisse': 0.19913312424995852,
+                'Ratio de Sortino': -0.8025238328989932,
+                'Ratio de Calmar': 0.0037046536093212346
+            }
+            return jsonify(output_data)
 
         # Code exécuté par le bouton de l'API 2
         @app.route('/run_code_api2', methods=['POST'])
@@ -137,22 +152,4 @@ class Application(tk.Tk):
         def run_code_api3():
             pass
 
-        # SImulation de l'API du projet 1 pour ressortir les outputs 
-        # La réponse de l'API fournit des statistiques et des analyses de performance pour la stratégie testée dans un dictionnaire
-        @app.route('/Projet_1_Outputs_API')
-        def projet_1_outputs_api():
-            # Dictionnaire d'outputs 
-            output_data = {
-                'Rendement Annuel': 1.09906787617619,
-                'Volatilite Annuelle': 0.04427079325967763,
-                'Ratio de Sharpe': -3.609808326515445,
-                'Skewness': 0.9234094592660941,
-                'Kurtosis': 10.37351565352118,
-                'Semi-Deviation': 0.009548205172359929,
-                'VaR Historique': -0.02038805996511345,
-                'Drawdown Maximal': -3.187857228514659,
-                'Volatilite a la Baisse': 0.19913312424995852,
-                'Ratio de Sortino': -0.8025238328989932,
-                'Ratio de Calmar': 0.0037046536093212346
-            }
-            return jsonify(output_data)
+        
