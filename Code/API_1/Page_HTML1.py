@@ -103,6 +103,7 @@ class API_1_ContentGenerator:
                 xhr.send(JSON.stringify({fnc:fnc, startDateCal: startDateCal, endDateCal: endDateCal, startDateTest: startDateTest, endDateTest: endDateTest, dataticker:dataTicker, freq: freq, amt: amt}));
             });
 
+            # Appel de l'API qui simule l'API du projet 1 pour ressortir le dictionnaire d'outputs
             function displayOutputs() {
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "/Projet_1_Outputs_API", true);
