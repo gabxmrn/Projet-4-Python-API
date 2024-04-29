@@ -24,6 +24,8 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
 
 ### Gabrielle
 
+- 29/04/2024
+  - Ecriture des fonctionnalités liées à l'API2 dans le ReadMe.
 - 28/04/2024
   - Merge de la branche de Joudy (manuellement) ;
   - Inputs de l'API 2 : ajout de la partie sur les données historiques et nettoyage de la partie sur les Websockets (réorganisation, simplification) ;
@@ -61,8 +63,8 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
   - Tests sur l'API 1 pour s'assurer que les différents controles sont effectivement bons ;
   - Reprise en accord avec Gabrielle d'une partie des codes (pour le bouton et les controles) ;
 
-
 ### Clara
+
 - 20/04/2024
   - Récupération des inputs du projet 1
   - Nombreux Tests afin d'intégrer l'API du projet 1 directement dans notre projet (Tests depuis leur code github : ) / ils ont également intégré une application streamlit dans laquelle un graphique devrait apparaitre
