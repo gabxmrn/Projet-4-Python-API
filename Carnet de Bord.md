@@ -61,6 +61,20 @@ Etant donné que nous devons réaliser une interface utilisateur pour trois proj
   - Tests sur l'API 1 pour s'assurer que les différents controles sont effectivement bons ;
   - Reprise en accord avec Gabrielle d'une partie des codes (pour le bouton et les controles) ;
 
+
+### Clara
+- 20/04/2024
+  - Récupération des inputs du projet 1
+  - Nombreux Tests afin d'intégrer l'API du projet 1 directement dans notre projet (Tests depuis leur code github : ) / ils ont également intégré une application streamlit dans laquelle un graphique devrait apparaitre
+  - Décision de créer une API fictive dans notre projet qui renverra un dictionnaire d'outputs comme dans leur projet initial
+- 21/04/2024
+  - Création de la route de l'API fictive
+- 29/04/2024
+  - Update du readme sur les fonctionnalités liées au projet et plus particulièrement liées à l'appel du projet 1 par l'utilisateur
+  - Création du bouton "Récupération des outputs" et du dictionnaire qu'il renvoie
+  - Test sur github avec l'incorporation du bouton pour la récupération des outputs du projet 1
+  - Modification de l'API_Global pour l'ajout de l'API qui simulera le projet 1
+  
 ## Spécification du projet au 31 décembre 2023
 
 ### Gabrielle - Récapitulatif global
