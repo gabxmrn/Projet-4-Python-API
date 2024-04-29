@@ -96,9 +96,9 @@ Nous avons pour objectif de développer une interface permettant :
 
 Lorsque l'utilisateur lance l'application, une fenêtre graphique s'ouvre avec trois boutons, chacun représentant un projet différent :
 
-Projet 1 : API pour le backtesting de stratégies de trading algorithmique,
-Projet 2 : Création d’analytics de trading personnalisés via API,
-Projet 3 : API d’uniformisation pour les échanges de cryptomonnaies.
+- Projet 1 : API pour le backtesting de stratégies de trading algorithmique,
+- Projet 2 : Création d’analytics de trading personnalisés via API,
+- Projet 3 : API d’uniformisation pour les échanges de cryptomonnaies.
 
 Pour le projet 1:
 
