@@ -1,4 +1,4 @@
- import tkinter as tk
+import tkinter as tk
 from tkinter import ttk
 import threading
 import webbrowser
@@ -94,7 +94,7 @@ class Application(tk.Tk):
 
     def start_flask_server(self, port, project_nb):
         """ 
-         Démarre un serveur Flask sur le port spécifié et ouvre un navigateur web pour accéder à l'API du projet.
+         Démarre un serveur Flask sur le port spécifié et ouvre un navigateur web pour accéder à l'API du projet.s
 
         Args:
             port (int): Le port sur lequel démarrer le serveur Flask.
