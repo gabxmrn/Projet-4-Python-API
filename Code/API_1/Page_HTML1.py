@@ -85,9 +85,8 @@ class API_1_ContentGenerator:
         
         # Récupération des données entrées par l'utilisateur
         script = """
-        <script>
+            <script>
             document.getElementById("BtnAPI1").addEventListener("click", function() {
-                
                 var startDateCal = document.getElementById("startDateCal").value;
                 var endDateCal = document.getElementById("endDateCal").value;
                 var startDateTest = document.getElementById("startDateTest").value;
@@ -99,18 +98,17 @@ class API_1_ContentGenerator:
                 var fnc = document.getElementById("fnc").value;
 
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/run_code_api1", true);
+                xhr.open("POST", "/run_code_api2", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         document.getElementById("result").innerHTML = xhr.responseText;
                     }
                 };
-                xhr.send(JSON.stringify({fnc:"fnc", startDateCal:"startDateCal", endDateCal:"endDateCal", startDateTest:"startDateTest", endDateTest: "endDateTest", dataticker:"dataTicker", freq: "freq", amt: "amt"}));
+                xhr.send(JSON.stringify({fnc:fnc, startDateCal: startDateCal, endDateCal: endDateCal, startDateTest: startDateTest, endDateTest: endDateTest, dataticker:dataTicker, freq: freq, amt: amt}));
             });
 
-            # Appel de l'API qui simule l'API du projet 1 pour ressortir le dictionnaire d'outputs
-            function displayOutputs() {
+                function displayOutputs() {
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "/Projet_1_Outputs_API", true);
                     xhr.onload = function () {
@@ -128,8 +126,10 @@ class API_1_ContentGenerator:
                     };
                     xhr.send();
                 }
-        </script>
-        """
+            </script>
+            """
+
+        
 
         return line_break + title + description + rqt_input_box + function_title + remarque + fnc + dropdown_data_type + \
             date1_input_box_cal + date2_input_box_cal + date1_input_box_test + date2_input_box_test + \
