@@ -1,4 +1,4 @@
-import tkinter as tk
+ import tkinter as tk
 from tkinter import ttk
 import threading
 import webbrowser
@@ -151,7 +151,7 @@ class Application(tk.Tk):
         # La réponse de l'API fournit des statistiques et des analyses de performance pour la stratégie testée dans un dictionnaire
         @app.route('/Projet_1_Outputs_API')
         def projet_1_outputs_api():
-            # Dictionnaire d'outputs 
+            # Dictionnaire des outputs 
             output_data = {
                 'Rendement Annuel': 1.09906787617619,
                 'Volatilite Annuelle': 0.04427079325967763,
