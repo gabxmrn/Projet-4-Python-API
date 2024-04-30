@@ -98,7 +98,7 @@ class API_1_ContentGenerator:
                 var fnc = document.getElementById("fnc").value;
 
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/run_code_api2", true);
+                xhr.open("POST", "/run_code_api1", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function () {
                     if (xhr.status === 200) {
